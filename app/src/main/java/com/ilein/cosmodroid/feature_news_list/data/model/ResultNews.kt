@@ -13,7 +13,7 @@ data class ResultNews(
     val program: List<Any>,
     val slug: String,
     val spacestations: List<Any>,
-    val typeOfNews: TypeOfNews,
+    val type: TypeOfNews,
     val updates: List<Any>,
     val url: String,
     val video_url: String,

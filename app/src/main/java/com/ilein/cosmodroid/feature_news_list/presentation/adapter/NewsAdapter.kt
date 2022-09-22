@@ -9,12 +9,9 @@ import coil.load
 import com.ilein.cosmodroid.feature_news_list.data.model.ResultNews
 
 class NewsAdapter(private val newsList: List<ResultNews>) :
-
-//class NewsAdapter() :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     class NewsViewHolder(val itemBinding: ItemNewsLayoutBinding) : RecyclerView.ViewHolder(itemBinding.root)
 
-//    private var newsList: List<ResultNews> = emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder =
         NewsViewHolder(
             ItemNewsLayoutBinding.bind(
@@ -26,15 +23,11 @@ class NewsAdapter(private val newsList: List<ResultNews>) :
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         with(holder.itemBinding) {
             dateOfNews.text = newsList[position].date
-            typeOfNews.text = newsList[position].typeOfNews.name
+            typeOfNews.text = newsList[position].type.name
             previewOfNews.text = newsList[position].description
             imageOfNews.load(newsList[position].feature_image)
         }
     }
-
-//    fun setList(list: List<ResultNews>) {
-//        newsList = list
-//    }
 
     override fun getItemCount() = newsList.size
 }
