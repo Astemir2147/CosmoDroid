@@ -1,6 +1,6 @@
 package com.ilein.cosmodroid.feature_news_list.data.model
 
-data class EventModel(
+data class ResultNews(
     val date: String,
     val description: String,
     val expeditions: List<Any>,
@@ -13,7 +13,7 @@ data class EventModel(
     val program: List<Any>,
     val slug: String,
     val spacestations: List<Any>,
-    val type: String,
+    val typeOfNews: TypeOfNews,
     val updates: List<Any>,
     val url: String,
     val video_url: String,
