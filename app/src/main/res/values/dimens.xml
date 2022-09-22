@@ -1,4 +1,10 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="baseRadius">10dp</dimen>
+    <dimen name="Component_item_horizontal_padding">10dp</dimen>
+    <dimen name="Component_item_vertical_padding">10dp</dimen>
+    <dimen name="Component_item_horizontal_margin">12dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="text_size_in_news_card">16sp</dimen>
+    <dimen name="high_picture_in_news_card">200dp</dimen>
 </resources>

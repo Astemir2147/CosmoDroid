@@ -31,4 +31,7 @@
         nulla. Donec rhoncus libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus vestibulum. Fusce dictum
         libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="date_of_news">date of news</string>
+    <string name="preview_of_news">preview of news</string>
+    <string name="type_of_news">type of news</string>
 </resources>
