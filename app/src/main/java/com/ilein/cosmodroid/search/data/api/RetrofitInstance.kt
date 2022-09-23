@@ -9,6 +9,7 @@ object RetrofitInstance {
         Retrofit.Builder()
             .baseUrl("https://${BuildConfig.API_BASE_URL}/${BuildConfig.API_VERSION}/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(AddLoggingInterceptor.setLogging())
             .build()
     }
     val apiRequest: ApiRequest by lazy {

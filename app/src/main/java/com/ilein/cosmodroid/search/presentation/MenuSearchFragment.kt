@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ilein.cosmodroid.databinding.FragmentMenuSearchBinding
+import com.ilein.cosmodroid.search.data.model.EnumSearchItems
 
 
 class MenuSearchFragment : Fragment() {

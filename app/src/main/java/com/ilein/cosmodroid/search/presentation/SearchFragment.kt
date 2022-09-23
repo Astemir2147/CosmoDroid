@@ -1,6 +1,5 @@
 package com.ilein.cosmodroid.search.presentation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,20 +30,20 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.title
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = args.title
+        binding.tvSearchName.text = args.title
+        myViewModel.loadSearchItemsList(args.id)
         searchAdapter = SearchAdapter()
         binding.rvSearchResults.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter
         }
-
-        myViewModel.getSearchItemsList()
-        myViewModel.searchListLiveData.observe(viewLifecycleOwner) {
+        myViewModel.searchListLiveData.observe(requireActivity()) {
             binding.rvSearchResults.apply {
-                adapter = SearchAdapter()
+                adapter = searchAdapter
+                searchAdapter.setItems(it)
             }
         }
     }

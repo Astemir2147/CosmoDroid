@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.ilein.cosmodroid.R
+import com.ilein.cosmodroid.search.data.model.EnumSearchItems
 
 internal class MenuSearchAdapter: ListAdapter<EnumSearchItems, MenuSearchAdapter.ViewHolder>(
     SEARCH_ITEM_COMPARATOR
