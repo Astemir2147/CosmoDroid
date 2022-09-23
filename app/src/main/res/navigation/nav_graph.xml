@@ -9,4 +9,25 @@
         android:name="com.ilein.cosmodroid.feature_news_list.presentation.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/menuSearchFragment"
+        android:name="com.ilein.cosmodroid.search.presentation.MenuSearchFragment"
+        android:label="@string/search_menu"
+        tools:layout="@layout/fragment_menu_search" >
+        <action
+            android:id="@+id/action_toSearchFragmentWithParam"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.ilein.cosmodroid.search.presentation.SearchFragment"
+        android:label="search_fragment"
+        tools:layout="@layout/search_fragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>

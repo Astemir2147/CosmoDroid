@@ -1,4 +1,4 @@
-package com.ilein.cosmodroid.search
+package com.ilein.cosmodroid.search.presentation
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,7 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.ilein.cosmodroid.R
 
-internal class MenuSearchAdapter: ListAdapter<SearchItem, MenuSearchAdapter.ViewHolder>(
+internal class MenuSearchAdapter: ListAdapter<EnumSearchItems, MenuSearchAdapter.ViewHolder>(
     SEARCH_ITEM_COMPARATOR
 ) {
 
@@ -23,39 +23,39 @@ internal class MenuSearchAdapter: ListAdapter<SearchItem, MenuSearchAdapter.View
     }
 
     interface IOnItemClick {
-        fun onItemClick(searchItem: SearchItem)
+        fun onItemClick(searchItem: EnumSearchItems)
     }
 
     internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var image: ImageView = itemView.findViewById(R.id.ivPic)
         private var itemTitle: TextView = itemView.findViewById(R.id.tvMenuItem)
 
-        fun bind(searchItem: SearchItem) {
+        fun bind(searchItem: EnumSearchItems) {
 
             itemView.setOnClickListener {
                 clickListener?.onItemClick(searchItem)
             }
 
             image.requestLayout()
-            itemTitle.text = searchItem.textInfo
+            itemTitle.text = searchItem.title
 
-            image.load(searchItem.image) {
+            image.load(searchItem.imgUrl) {
                 transformations(RoundedCornersTransformation(16f))
             }
         }
     }
 
     companion object {
-        val SEARCH_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<SearchItem>() {
-            override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+        val SEARCH_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<EnumSearchItems>() {
+            override fun areContentsTheSame(oldItem: EnumSearchItems, newItem: EnumSearchItems): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+            override fun areItemsTheSame(oldItem: EnumSearchItems, newItem: EnumSearchItems): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun getChangePayload(oldItem: SearchItem, newItem: SearchItem): Any? {
+            override fun getChangePayload(oldItem: EnumSearchItems, newItem: EnumSearchItems): Any? {
                 return null
             }
         }
