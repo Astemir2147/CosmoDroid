@@ -1,6 +1,6 @@
 package com.ilein.cosmodroid.feature_news_list.data.repository
 
-import com.ilein.cosmodroid.feature_news_list.data.api.ApiRequest
+import com.ilein.cosmodroid.core.api.ApiRequest
 import com.ilein.cosmodroid.feature_news_list.data.model.ResultNews
 import com.ilein.cosmodroid.feature_news_list.domain.ResultState
 import com.ilein.cosmodroid.feature_news_list.domain.repository.NewsRepository

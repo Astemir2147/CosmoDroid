@@ -1,7 +1,6 @@
-package com.ilein.cosmodroid.search.data.api
+package com.ilein.cosmodroid.core.api
 
 import okhttp3.OkHttpClient
-
 import okhttp3.logging.HttpLoggingInterceptor
 
 object AddLoggingInterceptor {

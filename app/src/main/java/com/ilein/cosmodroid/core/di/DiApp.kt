@@ -1,16 +1,17 @@
-package com.ilein.cosmodroid.core
+package com.ilein.cosmodroid.core.di
 
-import android.app.Application
 import com.ilein.cosmodroid.feature_news_list.di.newsModule
+import com.ilein.cosmodroid.search.di.searchModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import android.app.Application
 
 class DiApp : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidContext(this@DiApp)
-            modules(coreModule, newsModule)
+            modules(coreModule, newsModule, searchModule)
         }
     }
 }
