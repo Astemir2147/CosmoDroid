@@ -1,4 +1,4 @@
-package com.ilein.cosmodroid
+package com.ilein.cosmodroid.core
 
 import android.app.Application
 import com.ilein.cosmodroid.feature_news_list.di.newsModule
@@ -10,7 +10,7 @@ class DiApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@DiApp)
-            modules(newsModule)
+            modules(coreModule, newsModule)
         }
     }
 }
