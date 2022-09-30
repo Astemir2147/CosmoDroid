@@ -16,21 +16,28 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewsBinding.bind(view)
-
         with(newsViewModel) {
+            contentState.observe(viewLifecycleOwner, ::handleNewsState)
             getNewsList()
-            state.observe(viewLifecycleOwner, ::handleNewsState)
         }
-
+        newsAdapter = NewsAdapter()
+        binding.newsRecyclerView.adapter = newsAdapter
     }
 
     private fun handleNewsState(newsState: NewsViewState) {
         when (newsState) {
-            is NewsViewState.Content -> {
-                newsAdapter = NewsAdapter(newsState.newsList)
-                binding.newsRecyclerView.adapter = newsAdapter
-            }
+            is NewsViewState.Content -> newsState.handle()
+            is NewsViewState.Error -> newsState.handle()
+            else -> {}
         }
     }
+
+    private fun NewsViewState.Content.handle() {
+        newsAdapter.setNewsList(newsList)
+        binding.newsRecyclerView.adapter = newsAdapter
+    }
+
+    private fun NewsViewState.Error.handle() {}
+
 }
 

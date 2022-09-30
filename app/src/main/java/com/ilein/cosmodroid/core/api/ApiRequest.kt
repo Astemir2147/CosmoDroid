@@ -12,17 +12,17 @@ interface ApiRequest {
     suspend fun getNews(): NewsModel
 
     @GET("event/")
-    suspend fun getEvents() : SearchResultsModel<SearchResultModel>
+    suspend fun getEvents(): SearchResultsModel<SearchResultModel>
 
     @GET("launch/")
-    suspend fun getLaunches() :SearchResultsModel<SearchResultLaunchModel>
+    suspend fun getLaunches(): SearchResultsModel<SearchResultLaunchModel>
 
     @GET("astronaut/")
-    suspend fun getAstronauts() :SearchResultsModel<SearchResultAstronautModel>
+    suspend fun getAstronauts(): SearchResultsModel<SearchResultAstronautModel>
 
     @GET("agencies/")
-    suspend fun getAgencies() :SearchResultsModel<SearchResultModel>
+    suspend fun getAgencies(): SearchResultsModel<SearchResultModel>
 
     @GET("spacestation/")
-    suspend fun getSpaceStations() :SearchResultsModel<SearchResultModel>
+    suspend fun getSpaceStations(): SearchResultsModel<SearchResultModel>
 }
