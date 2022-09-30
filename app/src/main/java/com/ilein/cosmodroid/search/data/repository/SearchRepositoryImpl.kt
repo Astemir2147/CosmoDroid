@@ -1,31 +1,31 @@
 package com.ilein.cosmodroid.search.data.repository
 
-import com.ilein.cosmodroid.search.data.api.RetrofitInstance
+import com.ilein.cosmodroid.core.api.ApiRequest
 import com.ilein.cosmodroid.search.data.model.SearchResultAstronautModel
 import com.ilein.cosmodroid.search.data.model.SearchResultsModel
 import com.ilein.cosmodroid.search.domain.SearchRepository
 import com.ilein.cosmodroid.search.data.model.SearchResultLaunchModel
 import com.ilein.cosmodroid.search.data.model.SearchResultModel
 
-class SearchRepositoryImpl: SearchRepository {
+class SearchRepositoryImpl(private val apiRequest: ApiRequest): SearchRepository {
 
     override suspend fun getEventsItems(): SearchResultsModel<SearchResultModel> {
-        return RetrofitInstance.apiRequest.getEvents()
+        return apiRequest.getEvents()
     }
 
     override suspend fun getLaunchesItems(): SearchResultsModel<SearchResultLaunchModel> {
-        return RetrofitInstance.apiRequest.getLaunches()
+        return apiRequest.getLaunches()
     }
 
     override suspend fun getAstronautsItems(): SearchResultsModel<SearchResultAstronautModel> {
-        return RetrofitInstance.apiRequest.getAstronauts()
+        return apiRequest.getAstronauts()
     }
 
     override suspend fun getAgenciesItems(): SearchResultsModel<SearchResultModel> {
-        return RetrofitInstance.apiRequest.getAgencies()
+        return apiRequest.getAgencies()
     }
 
     override suspend fun getSpaceStationsItems(): SearchResultsModel<SearchResultModel> {
-        return RetrofitInstance.apiRequest.getSpaceStations()
+        return apiRequest.getSpaceStations()
     }
 }

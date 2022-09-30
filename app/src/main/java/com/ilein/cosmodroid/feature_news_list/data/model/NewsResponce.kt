@@ -1,6 +1,6 @@
 package com.ilein.cosmodroid.feature_news_list.data.model
 
-data class ResultNews(
+data class NewsResponce(
     val date: String,
     val description: String,
     val expeditions: List<Any>,

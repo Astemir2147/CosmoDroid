@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import coil.load
-import com.ilein.cosmodroid.feature_news_list.data.model.ResultNews
+import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 
-class NewsAdapter(private val newsList: List<ResultNews>) :
+class NewsAdapter() :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
-    class NewsViewHolder(val itemBinding: ItemNewsLayoutBinding) : RecyclerView.ViewHolder(itemBinding.root)
-
+    class NewsViewHolder(val itemBinding: ItemNewsLayoutBinding): RecyclerView.ViewHolder(itemBinding.root)
+    private var newsList: MutableList<NewsItem> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder =
         NewsViewHolder(
             ItemNewsLayoutBinding.bind(
@@ -19,6 +19,11 @@ class NewsAdapter(private val newsList: List<ResultNews>) :
                     .inflate(R.layout.item_news_layout, parent, false)
             )
         )
+
+    fun setNewsList(list: List<NewsItem>){
+        newsList.clear()
+        newsList.addAll(list)
+    }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         with(holder.itemBinding) {
