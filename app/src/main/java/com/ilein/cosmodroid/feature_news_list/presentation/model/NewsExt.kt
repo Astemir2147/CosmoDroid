@@ -7,6 +7,6 @@ fun NewsPreviewModel.toNewsItem() =
         id = id,
         date = date,
         description = description,
-        feature_image = feature_image,
+        featureImage = featureImage,
         type = type
     )
