@@ -7,6 +7,6 @@ fun NewsResponce.toNewsPreviewModel() =
         id = id,
         date = date,
         description = description,
-        feature_image = feature_image,
+        featureImage = featureImage,
         type = type
     )
