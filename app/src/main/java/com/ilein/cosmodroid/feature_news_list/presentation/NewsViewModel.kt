@@ -19,7 +19,7 @@ class NewsViewModel(private val newsInteractor: NewsInteractor): ViewModel() {
 
     fun getNewsList() {
         viewModelScope.launch {
-            newsViewState.value = NewsViewState.Loading
+            newsViewState.value = NewsViewState.Shimmer
             when (val news = newsInteractor.getNewsList()) {
                 is ResultState.Success -> { dispatcherSuccess(news.data.map { it.toNewsItem() }) }
                 is ResultState.Error -> { dispatcherError(news.errorData) }
@@ -36,7 +36,7 @@ class NewsViewModel(private val newsInteractor: NewsInteractor): ViewModel() {
 
     private suspend fun dispatcherError(isNetworkError: Boolean) {
         withContext(Dispatchers.Main) {
-            newsViewState.value = NewsViewState.Error(error = isNetworkError)
+            newsViewState.value = NewsViewState.Error(error = isNetworkError.parseError())
         }
     }
 

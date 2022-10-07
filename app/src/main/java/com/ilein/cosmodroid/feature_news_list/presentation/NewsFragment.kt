@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.ilein.cosmodroid.R
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
     private lateinit var binding: FragmentNewsBinding
@@ -25,11 +26,26 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     }
 
     private fun handleNewsState(newsState: NewsViewState) {
+        refresh(newsState)
         when (newsState) {
+            is NewsViewState.Shimmer -> newsState.handle()
             is NewsViewState.Content -> newsState.handle()
             is NewsViewState.Error -> newsState.handle()
             else -> {}
         }
+    }
+
+    private fun refresh(state: NewsViewState) {
+        with(binding) {
+            shimmer.stopShimmer()
+            shimmer.isVisible = state is NewsViewState.Shimmer
+            newsRecyclerView.isVisible = state is NewsViewState.Content
+            errorLayout.isVisible = state is NewsViewState.Error
+        }
+    }
+
+    private fun getOnTryAction() {
+        return newsViewModel.getNewsList()
     }
 
     private fun NewsViewState.Content.handle() {
@@ -37,7 +53,17 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         binding.newsRecyclerView.adapter = newsAdapter
     }
 
-    private fun NewsViewState.Error.handle() {}
+    private fun NewsViewState.Error.handle() {
+        with(binding) {
+            btnErrorTryAgain.setOnClickListener { getOnTryAction() }
+            textErrorTitle.setText(error.title)
+            textErrorDescription.setText(error.description)
+        }
+    }
+
+    private fun NewsViewState.Shimmer.handle() {
+        binding.shimmer.startShimmer()
+    }
 
 }
 

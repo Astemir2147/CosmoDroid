@@ -30,7 +30,7 @@ class NewsAdapter() :
             dateOfNews.text = newsList[position].date
             typeOfNews.text = newsList[position].type.name
             previewOfNews.text = newsList[position].description
-            imageOfNews.load(newsList[position].feature_image)
+            imageOfNews.load(newsList[position].featureImage)
         }
     }
 
