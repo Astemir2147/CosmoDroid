@@ -8,6 +8,7 @@ import com.ilein.cosmodroid.R
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
     private lateinit var binding: FragmentNewsBinding
@@ -21,7 +22,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
             contentState.observe(viewLifecycleOwner, ::handleNewsState)
             getNewsList()
         }
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter { showBottomSheet() }
         binding.newsRecyclerView.adapter = newsAdapter
     }
 
@@ -59,6 +60,9 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
             textErrorTitle.setText(error.title)
             textErrorDescription.setText(error.description)
         }
+    }
+    private fun showBottomSheet(){
+        findNavController().navigate(R.id.action_newsFragment_to_modalBottomSheet)
     }
 
     private fun NewsViewState.Shimmer.handle() {

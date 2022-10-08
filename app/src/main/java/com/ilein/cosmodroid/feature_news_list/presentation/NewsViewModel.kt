@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.ViewModel
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
+import com.ilein.cosmodroid.feature_news_list.presentation.model.parseError
 import com.ilein.cosmodroid.feature_news_list.presentation.model.toNewsItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

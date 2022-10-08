@@ -16,4 +16,8 @@
     <string name="loading_error_title">Ошибка</string>
     <string name="loading_error_description">Повторите запрос или попробуйте позднее</string>
     <string name="refresh">Обновить</string>
+    <string name="add_favourite_text">Добавить в избранное</string>
+    <string name="open_original_article">Открыть оригинал статьи</string>
+    <string name="translate_article">Перевести статью</string>
+    <string name="share">Поделиться</string>
 </resources>
