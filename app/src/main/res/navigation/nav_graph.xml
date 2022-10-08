@@ -8,7 +8,11 @@
         android:id="@+id/newsFragment"
         android:name="com.ilein.cosmodroid.feature_news_list.presentation.NewsFragment"
         android:label="fragment_news"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_news" >
+        <action
+            android:id="@+id/action_newsFragment_to_modalBottomSheet"
+            app:destination="@id/modalBottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/menuSearchFragment"
         android:name="com.ilein.cosmodroid.search.presentation.MenuSearchFragment"
@@ -30,4 +34,9 @@
             android:name="title"
             app:argType="string" />
     </fragment>
+    <dialog
+        android:id="@+id/modalBottomSheet"
+        android:name="com.ilein.cosmodroid.feature_news_list.presentation.ModalBottomSheet"
+        android:label="fragment_modal_bottom_sheet"
+        tools:layout="@layout/fragment_modal_bottom_sheet" />
 </navigation>

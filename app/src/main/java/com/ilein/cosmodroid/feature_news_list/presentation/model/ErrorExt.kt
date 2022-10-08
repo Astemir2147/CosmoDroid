@@ -1,7 +1,6 @@
-package com.ilein.cosmodroid.feature_news_list.presentation
+package com.ilein.cosmodroid.feature_news_list.presentation.model
 
 import com.ilein.cosmodroid.R
-import com.ilein.cosmodroid.feature_news_list.presentation.model.ErrorModel
 
 fun Boolean.parseError(): ErrorModel =
     if (this) ErrorModel(

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import coil.load
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 
-class NewsAdapter() :
+class NewsAdapter(private val showBottomSheet: () -> Unit) :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     class NewsViewHolder(val itemBinding: ItemNewsLayoutBinding): RecyclerView.ViewHolder(itemBinding.root)
     private var newsList: MutableList<NewsItem> = mutableListOf()
@@ -27,6 +27,7 @@ class NewsAdapter() :
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         with(holder.itemBinding) {
+            spinMenu.setOnClickListener { showBottomSheet.invoke() }
             dateOfNews.text = newsList[position].date
             typeOfNews.text = newsList[position].type.name
             previewOfNews.text = newsList[position].description
