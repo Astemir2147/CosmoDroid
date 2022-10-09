@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.ViewModel
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
+import com.ilein.cosmodroid.feature_news_list.presentation.model.parseError
 import com.ilein.cosmodroid.feature_news_list.presentation.model.toNewsItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ class NewsViewModel(private val newsInteractor: NewsInteractor): ViewModel() {
 
     fun getNewsList() {
         viewModelScope.launch {
-            newsViewState.value = NewsViewState.Loading
+            newsViewState.value = NewsViewState.Shimmer
             when (val news = newsInteractor.getNewsList()) {
                 is ResultState.Success -> { dispatcherSuccess(news.data.map { it.toNewsItem() }) }
                 is ResultState.Error -> { dispatcherError(news.errorData) }
@@ -36,7 +37,7 @@ class NewsViewModel(private val newsInteractor: NewsInteractor): ViewModel() {
 
     private suspend fun dispatcherError(isNetworkError: Boolean) {
         withContext(Dispatchers.Main) {
-            newsViewState.value = NewsViewState.Error(error = isNetworkError)
+            newsViewState.value = NewsViewState.Error(error = isNetworkError.parseError())
         }
     }
 

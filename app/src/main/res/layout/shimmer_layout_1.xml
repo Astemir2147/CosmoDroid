@@ -14,50 +14,45 @@
 
         <TextView
             android:id="@+id/typeOfNews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@drawable/shimmer_roundc_orner"
 
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/Component_item_horizontal_padding"
-            android:text="@string/type_of_news"
-            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/previewOfNews"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.538">
-
+            app:layout_constraintVertical_bias="0.375">
         </TextView>
 
         <TextView
             android:id="@+id/dateOfNews"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/Component_item_horizontal_margin"
-            android:maxLength="10"
             android:paddingHorizontal="@dimen/Component_item_horizontal_padding"
-            android:text="@string/date_of_news"
-            app:layout_constraintBottom_toTopOf="@+id/previewOfNews"
+            android:background="@drawable/shimmer_roundc_orner"
+            app:layout_constraintBottom_toBottomOf="@+id/typeOfNews"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.024"
+            app:layout_constraintHorizontal_bias="0.023"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.538">
+            app:layout_constraintVertical_bias="1.0">
 
         </TextView>
 
         <TextView
             android:id="@+id/previewOfNews"
-            android:text="@string/preview_of_news"
+            android:background="@drawable/shimmer_roundc_orner"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="29dp"
             android:layout_marginTop="16dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingHorizontal="@dimen/Component_item_horizontal_padding"
             android:paddingBottom="10dp"
-            android:textSize="@dimen/text_size_in_news_card"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.444"
@@ -68,7 +63,9 @@
 
         <ImageView
             android:id="@+id/imageOfNews"
+            android:background="@drawable/shimmer_roundc_orner_image"
             android:layout_width="match_parent"
+            android:layout_marginTop="27dp"
             android:layout_height="@dimen/high_picture_in_news_card"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
