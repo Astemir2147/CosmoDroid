@@ -22,7 +22,10 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
             contentState.observe(viewLifecycleOwner, ::handleNewsState)
             getNewsList()
         }
-        newsAdapter = NewsAdapter { showBottomSheet() }
+        newsAdapter = NewsAdapter(
+            showBottomSheet = { showBottomSheet() },
+            showDetailNews = ::getItemClickListener
+        )
         binding.newsRecyclerView.adapter = newsAdapter
     }
 
@@ -49,8 +52,14 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         return newsViewModel.getNewsList()
     }
 
+    private fun getItemClickListener(id:Int) {
+        val argument = Bundle()
+        argument.putInt(NEWS_ID,id)
+          return  findNavController().navigate(R.id.detailNewsLayout,argument)
+    }
+
     private fun NewsViewState.Content.handle() {
-        newsAdapter.setNewsList(newsList)
+        newsAdapter.setNewsList(list = newsList)
         binding.newsRecyclerView.adapter = newsAdapter
     }
 
@@ -61,13 +70,16 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
             textErrorDescription.setText(error.description)
         }
     }
-    private fun showBottomSheet(){
+
+    private fun showBottomSheet() {
         findNavController().navigate(R.id.action_newsFragment_to_modalBottomSheet)
     }
 
     private fun NewsViewState.Shimmer.handle() {
         binding.shimmer.startShimmer()
     }
-
+    companion object{
+        const val NEWS_ID = "NEWS_ID"
+    }
 }
 
