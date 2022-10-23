@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_newsFragment_to_modalBottomSheet"
             app:destination="@id/modalBottomSheet" />
+        <action
+            android:id="@+id/action_newsFragment_to_detailNewsFragment"
+            app:destination="@id/detailNewsLayout" />
     </fragment>
     <fragment
         android:id="@+id/menuSearchFragment"
@@ -39,4 +42,9 @@
         android:name="com.ilein.cosmodroid.feature_news_list.presentation.ModalBottomSheet"
         android:label="fragment_modal_bottom_sheet"
         tools:layout="@layout/fragment_modal_bottom_sheet" />
+    <fragment
+        android:id="@+id/detailNewsLayout"
+        android:name="com.ilein.cosmodroid.feature_news_list.presentation.news_detail.DetailNewsFragment"
+        android:label="fragment_detail_news"
+        tools:layout="@layout/fragment_detail_news" />
 </navigation>

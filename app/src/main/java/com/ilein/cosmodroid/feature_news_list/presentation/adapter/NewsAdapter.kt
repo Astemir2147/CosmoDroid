@@ -8,9 +8,14 @@ import android.view.ViewGroup
 import coil.load
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 
-class NewsAdapter(private val showBottomSheet: () -> Unit) :
+class NewsAdapter(
+    private val showBottomSheet: () -> Unit,
+    private val showDetailNews: (Int) -> Unit
+) :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
-    class NewsViewHolder(val itemBinding: ItemNewsLayoutBinding): RecyclerView.ViewHolder(itemBinding.root)
+    class NewsViewHolder(val itemBinding: ItemNewsLayoutBinding) :
+        RecyclerView.ViewHolder(itemBinding.root)
+
     private var newsList: MutableList<NewsItem> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder =
         NewsViewHolder(
@@ -20,7 +25,7 @@ class NewsAdapter(private val showBottomSheet: () -> Unit) :
             )
         )
 
-    fun setNewsList(list: List<NewsItem>){
+    fun setNewsList(list: List<NewsItem>) {
         newsList.clear()
         newsList.addAll(list)
     }
@@ -32,6 +37,7 @@ class NewsAdapter(private val showBottomSheet: () -> Unit) :
             typeOfNews.text = newsList[position].type.name
             previewOfNews.text = newsList[position].description
             imageOfNews.load(newsList[position].featureImage)
+            root.setOnClickListener{ showDetailNews.invoke(newsList[position].id)}
         }
     }
 
