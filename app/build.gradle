@@ -39,6 +39,10 @@ android {
 }
 
 dependencies {
+    def room_version = "2.4.2"
+
+    //Room
+    api "androidx.room:room-runtime:$room_version"
     //facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     //Coil
