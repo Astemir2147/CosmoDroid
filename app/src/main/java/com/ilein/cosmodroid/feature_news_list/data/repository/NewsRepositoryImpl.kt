@@ -13,7 +13,7 @@ class NewsRepositoryImpl(private val apiRequest: ApiRequest): NewsRepository {
         return apiRequest.getNews().results.map { it.toNewsPreviewModel() }
     }
 
-    override suspend fun getDetailNews(id:Int): DetailNewsModel {
-        return  apiRequest.getNewsById(id = id).toDetailNewsModel()
+    override suspend fun getDetailNews(id: Int): DetailNewsModel {
+        return apiRequest.getNewsById(id = id).toDetailNewsModel()
     }
 }

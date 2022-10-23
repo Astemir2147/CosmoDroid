@@ -1,4 +1,4 @@
-package com.ilein.cosmodroid.feature_news_list.presentation
+package com.ilein.cosmodroid.feature_news_list.presentation.state
 
 import com.ilein.cosmodroid.feature_news_list.presentation.model.DetailNewsItem
 import com.ilein.cosmodroid.feature_news_list.presentation.model.ErrorModel

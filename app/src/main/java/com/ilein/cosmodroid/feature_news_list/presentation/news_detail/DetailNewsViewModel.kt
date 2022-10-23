@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilein.cosmodroid.feature_news_list.domain.ResultState
 import com.ilein.cosmodroid.feature_news_list.domain.interactor.NewsInteractor
-import com.ilein.cosmodroid.feature_news_list.presentation.DetailNewsViewState
+import com.ilein.cosmodroid.feature_news_list.presentation.state.DetailNewsViewState
 import com.ilein.cosmodroid.feature_news_list.presentation.model.DetailNewsItem
 import com.ilein.cosmodroid.feature_news_list.presentation.model.parseError
 import com.ilein.cosmodroid.feature_news_list.presentation.model.toDetailNewsItem

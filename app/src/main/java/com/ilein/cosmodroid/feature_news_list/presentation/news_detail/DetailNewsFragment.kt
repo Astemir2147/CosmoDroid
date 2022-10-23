@@ -7,9 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
-import com.ilein.cosmodroid.feature_news_list.presentation.DetailNewsViewState
+import com.ilein.cosmodroid.feature_news_list.presentation.state.DetailNewsViewState
 import com.ilein.cosmodroid.feature_news_list.presentation.model.DetailNewsItem
-import com.ilein.cosmodroid.feature_news_list.presentation.NewsFragment.Companion.NEWS_ID
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import coil.load
 
@@ -69,4 +68,7 @@ class DetailNewsFragment: Fragment(R.layout.fragment_detail_news) {
         return newsViewModel.getNews(id)
     }
 
+    private companion object {
+        const val NEWS_ID = "NEWS_ID"
+    }
 }

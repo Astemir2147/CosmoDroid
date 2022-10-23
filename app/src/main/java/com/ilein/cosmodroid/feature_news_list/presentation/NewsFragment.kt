@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import com.ilein.cosmodroid.feature_news_list.presentation.state.NewsViewState
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
     private lateinit var binding: FragmentNewsBinding
@@ -32,10 +33,9 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     private fun handleNewsState(newsState: NewsViewState) {
         refresh(newsState)
         when (newsState) {
-            is NewsViewState.Shimmer -> newsState.handle()
-            is NewsViewState.Content -> newsState.handle()
-            is NewsViewState.Error -> newsState.handle()
-            else -> {}
+            is NewsViewState.Shimmer -> newsState.shimmer()
+            is NewsViewState.Content -> newsState.content()
+            is NewsViewState.Error -> newsState.error()
         }
     }
 
@@ -48,22 +48,12 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         }
     }
 
-    private fun getOnTryAction() {
-        return newsViewModel.getNewsList()
-    }
-
-    private fun getItemClickListener(id:Int) {
-        val argument = Bundle()
-        argument.putInt(NEWS_ID,id)
-          return  findNavController().navigate(R.id.detailNewsLayout,argument)
-    }
-
-    private fun NewsViewState.Content.handle() {
+    private fun NewsViewState.Content.content() {
         newsAdapter.setNewsList(list = newsList)
         binding.newsRecyclerView.adapter = newsAdapter
     }
 
-    private fun NewsViewState.Error.handle() {
+    private fun NewsViewState.Error.error() {
         with(binding) {
             btnErrorTryAgain.setOnClickListener { getOnTryAction() }
             textErrorTitle.setText(error.title)
@@ -71,14 +61,25 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         }
     }
 
+    private fun NewsViewState.Shimmer.shimmer() {
+        binding.shimmer.startShimmer()
+    }
+
+    private fun getOnTryAction() {
+        return newsViewModel.getNewsList()
+    }
+
+    private fun getItemClickListener(id:Int) {
+        val argument = Bundle()
+        argument.putInt(NEWS_ID,id)
+        return  findNavController().navigate(R.id.detailNewsLayout,argument)
+    }
+
     private fun showBottomSheet() {
         findNavController().navigate(R.id.action_newsFragment_to_modalBottomSheet)
     }
 
-    private fun NewsViewState.Shimmer.handle() {
-        binding.shimmer.startShimmer()
-    }
-    companion object{
+    private companion object {
         const val NEWS_ID = "NEWS_ID"
     }
 }
