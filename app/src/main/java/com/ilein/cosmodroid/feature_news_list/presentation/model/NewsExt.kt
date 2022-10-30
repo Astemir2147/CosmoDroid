@@ -8,6 +8,6 @@ fun NewsPreviewModel.toNewsItem() =
         date = date,
         description = description,
         featureImage = featureImage,
-        type = type,
+        type = type.name,
         name = name,
     )

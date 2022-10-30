@@ -1,10 +1,10 @@
-package com.ilein.cosmodroid.feature_news_list.presentation.model
+package com.ilein.cosmodroid.feature_favourites_news.presentation.model
 
-data class NewsItem(
+data class DbNewsItem(
     val id: Int,
     val date: String,
     val description: String,
     val featureImage: String,
     val type: String,
-    val name: String,
+    val name: String
 )

@@ -9,5 +9,5 @@ fun NewsResponce.toNewsPreviewModel() =
         description = description,
         featureImage = featureImage,
         type = type,
-        name = name
+        name = name,
     )

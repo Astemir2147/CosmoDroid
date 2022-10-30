@@ -43,7 +43,7 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
             ModalBottomSheet().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM_DATE, newsItem.date)
-                    putString(ARG_PARAM_TYPE, newsItem.type.name)
+                    putString(ARG_PARAM_TYPE, newsItem.type)
                     putString(ARG_PARAM_DESCRIPTION, newsItem.description)
                     putString(ARG_PARAM_IMAGE, newsItem.featureImage)
                 }
