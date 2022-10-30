@@ -30,6 +30,7 @@ class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
     }
 
     fun data(state: FavoritesViewState) {
+        layoutHandle(state)
         when (state) {
             is FavoritesViewState.Content -> state.content()
             is FavoritesViewState.EmptyDatabase -> state.emptyDb()
@@ -43,6 +44,11 @@ class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
 
     private fun FavoritesViewState.EmptyDatabase.emptyDb() {
         binding.emptyDbMessage.isVisible = true
+    }
+
+    private fun layoutHandle(state: FavoritesViewState){
+        binding.favouritesNewsRecyclerView.isVisible = state is FavoritesViewState.Content
+        binding.emptyDbMessage.isVisible = state is FavoritesViewState.EmptyDatabase
     }
 
     private fun showDetailNews(newsItem: DbNewsItem) {
