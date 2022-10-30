@@ -7,6 +7,7 @@ import com.ilein.cosmodroid.core.database.DatabaseConst.DATE_OF_NEWS
 import com.ilein.cosmodroid.core.database.DatabaseConst.FAVOURITES_NEWS
 import com.ilein.cosmodroid.core.database.DatabaseConst.ID
 import com.ilein.cosmodroid.core.database.DatabaseConst.NEWS_CONTENT
+import com.ilein.cosmodroid.core.database.DatabaseConst.NEWS_IMAGE
 import com.ilein.cosmodroid.core.database.DatabaseConst.NEWS_NAME
 import com.ilein.cosmodroid.core.database.DatabaseConst.TYPE_OF_NEWS
 
@@ -14,7 +15,7 @@ import com.ilein.cosmodroid.core.database.DatabaseConst.TYPE_OF_NEWS
 data class NewsEntity(
     @PrimaryKey
     @ColumnInfo(name = ID)
-    val contractId: Long,
+    val newsId: Int,
 
     @ColumnInfo(name = NEWS_CONTENT)
     val newsContent: String,
@@ -26,5 +27,8 @@ data class NewsEntity(
     val typeOfNewsName: String,
 
     @ColumnInfo(name = NEWS_NAME)
-    val nameOfNewsName: String,
+    val nameOfNews: String,
+
+    @ColumnInfo(name = NEWS_IMAGE)
+    val imageOfNews: String
 )

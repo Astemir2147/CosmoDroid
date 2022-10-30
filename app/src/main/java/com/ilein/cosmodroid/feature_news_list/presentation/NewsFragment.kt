@@ -74,7 +74,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         arguments = Bundle().apply {
             putInt(ARG_PARAM_ID, newsItem.id)
             putString(ARG_PARAM_DATE, newsItem.date)
-            putString(ARG_PARAM_TYPE, newsItem.type.name)
+            putString(ARG_PARAM_TYPE, newsItem.type)
             putString(ARG_PARAM_DESCRIPTION, newsItem.description)
             putString(ARG_PARAM_IMAGE, newsItem.featureImage)
             putString(ARG_PARAM_NAME, newsItem.name)

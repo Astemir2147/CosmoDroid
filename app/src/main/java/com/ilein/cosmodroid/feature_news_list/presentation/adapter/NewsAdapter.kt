@@ -34,7 +34,7 @@ class NewsAdapter(
         with(holder.itemBinding) {
             spinMenu.setOnClickListener { showBottomSheet.invoke(newsList[position])}
             dateOfNews.text = newsList[position].date
-            typeOfNews.text = newsList[position].type.name
+            typeOfNews.text = newsList[position].type
             previewOfNews.text = newsList[position].description
             imageOfNews.load(newsList[position].featureImage)
             root.setOnClickListener{ showDetailNews.invoke(newsList[position])}
