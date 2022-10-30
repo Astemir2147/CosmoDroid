@@ -18,13 +18,10 @@ class FavouritesNewsViewModel(private val favoriteInteractor: FavoriteInteractor
     val contentState: LiveData<FavoritesViewState> get() = newsViewState
 
     fun getNewsList() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                when (val news = favoriteInteractor.getNewsList()) {
-                    is DateState.Data -> dispatcherSuccess(news.data.map { it.dbNewsToDbNewsItem() })
-                    is DateState.Empty -> dispatcherError()
-
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val news = favoriteInteractor.getNewsList()) {
+                is DateState.Data -> dispatcherSuccess(news.data.map { it.dbNewsToDbNewsItem() })
+                is DateState.Empty -> dispatcherError()
             }
         }
     }
