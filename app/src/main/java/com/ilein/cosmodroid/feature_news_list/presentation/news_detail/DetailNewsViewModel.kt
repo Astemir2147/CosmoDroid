@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.ilein.cosmodroid.feature_news_list.domain.ResultState
 import com.ilein.cosmodroid.feature_news_list.domain.interactor.NewsInteractor
 import com.ilein.cosmodroid.feature_news_list.presentation.state.DetailNewsViewState
-import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
+import com.ilein.cosmodroid.feature_news_list.presentation.model.DetailNewsItem
 import com.ilein.cosmodroid.feature_news_list.presentation.model.parseError
-import com.ilein.cosmodroid.feature_news_list.presentation.model.toNewsItem
+import com.ilein.cosmodroid.feature_news_list.presentation.model.toDetailNewsItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,16 +23,17 @@ class DetailNewsViewModel(private val newsInteractor: NewsInteractor) : ViewMode
             val news = newsInteractor.getDetailNews(id = id)
             newsViewState.value = DetailNewsViewState.Shimmer
             when (news) {
-                is ResultState.Success -> { dispatcherSuccess(news.data.toNewsItem()) }
+                is ResultState.Success -> { dispatcherSuccess(news.data.toDetailNewsItem()) }
                 is ResultState.Error -> { dispatcherError(news.errorData) }
             }
         }
     }
 
-    private suspend fun dispatcherSuccess(news: NewsItem) {
+    private suspend fun dispatcherSuccess(news: DetailNewsItem) {
         withContext(Dispatchers.Main) {
             newsViewState.postValue(DetailNewsViewState.Content(news = news))
         }
+
     }
 
     private suspend fun dispatcherError(isNetworkError: Boolean) {

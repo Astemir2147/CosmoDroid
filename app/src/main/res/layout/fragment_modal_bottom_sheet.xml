@@ -1,89 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/standard_bottom_sheet"
     style="@style/Widget.Material3.BottomSheet"
+    android:id="@+id/standard_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="20dp"
-    app:layout_behavior="com.google.android.material.bottom-sheet.BottomSheetBehavior"
+    android:paddingBottom="30dp"
     tools:context=".feature_news_list.presentation.ModalBottomSheet"
     tools:layout_editor_absoluteX="50dp"
-    tools:layout_editor_absoluteY="25dp">
+    tools:layout_editor_absoluteY="25dp"
+    app:layout_behavior="com.google.android.material.bottom-sheet.BottomSheetBehavior">
 
-    <Button
-        android:id="@+id/addToFavourite"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/DetailNews_horizontal_margin"
-        android:layout_marginTop="16dp"
-        android:gravity="start"
+        app:layout_constraintBottom_toBottomOf="@+id/openOriginalNewsPage"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/icon_news">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/translateNews"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/icon_translate_language">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="22dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/shareAnNews"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/icon_share">
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/addToFavourite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/icon_favorite_heart">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/addToFavourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="30dp"
         android:text="@string/add_favourite_text"
         android:textColor="@color/black"
-        android:textSize="16sp"
-        app:icon="@drawable/icon_favorite_heart"
-        app:iconPadding="20dp"
-        app:iconTint="@color/black"
+        android:textSize="@dimen/bottom_sheet_text_size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/openOriginalNewsPage"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/DetailNews_horizontal_margin"
-        android:layout_marginTop="12dp"
-        android:gravity="start"
-        android:text="@string/open_original_article"
+        android:layout_marginTop="28dp"
         android:textColor="@color/black"
+        android:text="@string/open_original_article"
         android:textSize="@dimen/bottom_sheet_text_size"
-        app:icon="@drawable/icon_news"
-        app:iconPadding="20dp"
-        app:iconTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/translateNews"
         app:layout_constraintTop_toBottomOf="@+id/translateNews" />
 
-    <Button
+    <TextView
         android:id="@+id/translateNews"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/DetailNews_horizontal_margin"
-        android:layout_marginTop="12dp"
-        android:gravity="start"
+        android:layout_marginTop="28dp"
         android:text="@string/translate_article"
         android:textColor="@color/black"
         android:textSize="@dimen/bottom_sheet_text_size"
-        app:icon="@drawable/icon_translate_language"
-        app:iconPadding="20dp"
-        app:iconTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/shareAnNews"
         app:layout_constraintTop_toBottomOf="@+id/shareAnNews" />
 
-    <Button
+    <TextView
         android:id="@+id/shareAnNews"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/DetailNews_horizontal_margin"
-        android:layout_marginTop="12dp"
-        android:gravity="start"
-        android:text="@string/share"
+        android:layout_marginTop="28dp"
         android:textColor="@color/black"
+        android:text="@string/share"
         android:textSize="@dimen/bottom_sheet_text_size"
-        app:icon="@drawable/icon_share"
-        app:iconPadding="20dp"
-        app:iconTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/addToFavourite"
         app:layout_constraintTop_toBottomOf="@+id/addToFavourite" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

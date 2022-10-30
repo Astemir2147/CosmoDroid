@@ -1,8 +1,8 @@
-package com.ilein.cosmodroid.feature_news_list.presentation.model
+package com.ilein.cosmodroid.feature_news_list.domain.model
 
 import com.ilein.cosmodroid.feature_news_list.data.model.TypeOfNews
 
-data class NewsItem(
+data class NewsPreviewModel(
     val id: Int,
     val date: String,
     val description: String,

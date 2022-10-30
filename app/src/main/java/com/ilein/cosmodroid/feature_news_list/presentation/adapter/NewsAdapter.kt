@@ -9,8 +9,8 @@ import coil.load
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 
 class NewsAdapter(
-    private val showBottomSheet: (newsIntent:NewsItem) -> Unit,
-    private val showDetailNews: (newsIntent:NewsItem) -> Unit
+    private val showBottomSheet: () -> Unit,
+    private val showDetailNews: (Int) -> Unit
 ) :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     class NewsViewHolder(val itemBinding: ItemNewsLayoutBinding) :
@@ -32,12 +32,12 @@ class NewsAdapter(
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         with(holder.itemBinding) {
-            spinMenu.setOnClickListener { showBottomSheet.invoke(newsList[position])}
+            spinMenu.setOnClickListener { showBottomSheet.invoke() }
             dateOfNews.text = newsList[position].date
             typeOfNews.text = newsList[position].type.name
             previewOfNews.text = newsList[position].description
             imageOfNews.load(newsList[position].featureImage)
-            root.setOnClickListener{ showDetailNews.invoke(newsList[position])}
+            root.setOnClickListener{ showDetailNews.invoke(newsList[position].id)}
         }
     }
 

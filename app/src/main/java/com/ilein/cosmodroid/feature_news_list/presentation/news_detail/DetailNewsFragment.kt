@@ -8,19 +8,35 @@ import androidx.navigation.fragment.findNavController
 import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
 import com.ilein.cosmodroid.feature_news_list.presentation.state.DetailNewsViewState
+import com.ilein.cosmodroid.feature_news_list.presentation.model.DetailNewsItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import coil.load
 
-
-class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
+class DetailNewsFragment: Fragment(R.layout.fragment_detail_news) {
     private lateinit var binding: FragmentDetailNewsBinding
     private val newsViewModel by viewModel<DetailNewsViewModel>()
+    private var newsId: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        newsId = requireArguments().getInt(NEWS_ID)
+        newsViewModel.getNews(newsId)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        newsViewModel.contentState.observe(viewLifecycleOwner, ::handleNewsState)
         binding = FragmentDetailNewsBinding.bind(view)
         binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
-        setDate()
+    }
+
+    private fun handleNewsState(newsState: DetailNewsViewState) {
+        refresh(newsState)
+        when (newsState) {
+            is DetailNewsViewState.Content -> setDate(newsState.news)
+            is DetailNewsViewState.Error -> newsState.handle()
+            else -> {}
+        }
     }
 
     private fun refresh(state: DetailNewsViewState) {
@@ -30,40 +46,19 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
         }
     }
 
-    private fun dateState(state: Boolean): Boolean {
+    private fun setDate(news: DetailNewsItem) {
         with(binding) {
-            when (state) {
-                true -> {
-                    detailNewsLayout.isVisible = true
-                    return true
-                }
-                false -> {
-                    detailErrorLayout.isVisible = true
-                    return false
-                }
-            }
-        }
-    }
-
-    private fun setDate() {
-        with(binding) {
-            val id = requireArguments().getString(ARG_PARAM_ID)
-            if (dateState(id.isNullOrEmpty())) {
-                nameOfNews.text = requireArguments().getString(ARG_PARAM_NAME)
-                dateOfNewsDetail.text = requireArguments().getString(ARG_PARAM_DATE)
-                typeOfNewsDetail.text = requireArguments().getString(ARG_PARAM_TYPE)
-                newsContent.text = requireArguments().getString(ARG_PARAM_DESCRIPTION)
-                imageOfDetailNews.load(requireArguments().getString(ARG_PARAM_IMAGE))
-            }
-
+            nameOfNews.text = news.name
+            dateOfNewsDetail.text = news.date
+            typeOfNewsDetail.text = news.type.name
+            newsContent.text = news.description
+            imageOfDetailNews.load(news.featureImage)
         }
     }
 
     private fun DetailNewsViewState.Error.handle() {
         with(binding) {
-            btnErrorTryAgain.setOnClickListener {
-                getOnTryAction(requireArguments().getInt(ARG_PARAM_ID))
-            }
+            btnErrorTryAgain.setOnClickListener { getOnTryAction(newsId) }
             textErrorTitle.setText(error.title)
             textErrorDescription.setText(error.description)
         }
@@ -73,12 +68,7 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
         return newsViewModel.getNews(id)
     }
 
-    companion object {
-        private const val ARG_PARAM_ID = "paramIdOfNews"
-        private const val ARG_PARAM_DATE = "paramDateOfNews"
-        private const val ARG_PARAM_TYPE = "paramTypeOfNews"
-        private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
-        private const val ARG_PARAM_IMAGE = "paramImageOfNews"
-        private const val ARG_PARAM_NAME = "paramNameOfNews"
+    private companion object {
+        const val NEWS_ID = "NEWS_ID"
     }
 }

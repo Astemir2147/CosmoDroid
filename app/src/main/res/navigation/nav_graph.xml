@@ -47,9 +47,4 @@
         android:name="com.ilein.cosmodroid.feature_news_list.presentation.news_detail.DetailNewsFragment"
         android:label="fragment_detail_news"
         tools:layout="@layout/fragment_detail_news" />
-    <fragment
-        android:id="@+id/favouritesNewsFragment"
-        android:name="com.ilein.cosmodroid.feature_favourites_news.presentation.FavouritesNewsFragment"
-        android:label="fragment_favourites_news"
-        tools:layout="@layout/fragment_favourites_news" />
 </navigation>

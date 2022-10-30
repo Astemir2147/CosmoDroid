@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -44,7 +43,6 @@ dependencies {
 
     //Room
     api "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
     //facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     //Coil
