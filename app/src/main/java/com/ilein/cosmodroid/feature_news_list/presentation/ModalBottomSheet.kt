@@ -38,24 +38,25 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         database = get<NewsDao>()
         binding = FragmentModalBottomSheetBinding.bind(view)
-        binding!!.addToFavourite.setOnClickListener { addToFavourite() }
-        binding!!.shareAnNews.setOnClickListener { shareNews(getDate()) }
-        binding!!.openOriginalNewsPage.setOnClickListener { openUrlInBrowser(getDate().url) }
+        binding?.addToFavourite?.setOnClickListener { addToFavourite() }
+        binding?.shareAnNews?.setOnClickListener { shareNews(getNewsItem()) }
+        binding?.openOriginalNewsPage?.setOnClickListener { openUrlInBrowser(getNewsItem().url) }
     }
 
     private fun addToFavourite() {
         lifecycleScope.launchWhenResumed {
             withContext(Dispatchers.IO) {
-                database.setFavouritesNews(getDate().toNewsEntity())
+                database.setFavouritesNews(getNewsItem().toNewsEntity())
             }
         }
     }
 
     private fun shareNews(newsItem: NewsItem) {
+        val typeShare = "text/plain"
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, newsItem.url)
-            type = "text/plain"
+            type = typeShare
         }
         startActivity(shareIntent)
     }
@@ -65,7 +66,7 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         startActivity(browserIntent)
     }
 
-    private fun getDate(): NewsItem {
+    private fun getNewsItem(): NewsItem {
         arguments?.let {
             newsId = requireArguments().getInt(ARG_PARAM_ID)
             date = arguments?.getString(ARG_PARAM_DATE).toString()
