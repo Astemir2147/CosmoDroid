@@ -1,5 +1,7 @@
 package com.ilein.cosmodroid.feature_news_list.presentation
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,12 +19,13 @@ import org.koin.android.ext.android.get
 
 class ModalBottomSheet: BottomSheetDialogFragment() {
     private var binding: FragmentModalBottomSheetBinding? = null
-    private var id: Int? = 0
+    private var newsId: Int = 0
     private lateinit var date: String
     private lateinit var description: String
     private lateinit var image: String
     private lateinit var type: String
     private lateinit var name: String
+    private lateinit var newsUrl: String
     private lateinit var database: NewsDao
 
     override fun onCreateView(
@@ -36,7 +39,10 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         database = get<NewsDao>()
         binding = FragmentModalBottomSheetBinding.bind(view)
         binding!!.addToFavourite.setOnClickListener { addToFavourite() }
+        binding!!.shareAnNews.setOnClickListener { shareNews(getDate()) }
+        binding!!.openOriginalNewsPage.setOnClickListener { openUrlInBrowser(getDate().url) }
     }
+
     private fun addToFavourite() {
         lifecycleScope.launchWhenResumed {
             withContext(Dispatchers.IO) {
@@ -45,16 +51,31 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         }
     }
 
+    private fun shareNews(newsItem: NewsItem) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, newsItem.url)
+            type = "text/plain"
+        }
+        startActivity(shareIntent)
+    }
+
+    private fun openUrlInBrowser(url: String) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(browserIntent)
+    }
+
     private fun getDate(): NewsItem {
         arguments?.let {
-            id = arguments?.getInt(ARG_PARAM_ID)
+            newsId = requireArguments().getInt(ARG_PARAM_ID)
             date = arguments?.getString(ARG_PARAM_DATE).toString()
-            description = arguments?.getString(ARG_PARAM_DESCRIPTION).toString()
-            image = arguments?.getString(ARG_PARAM_IMAGE).toString()
             type = arguments?.getString(ARG_PARAM_TYPE).toString()
             name = arguments?.getString(ARG_PARAM_NAME).toString()
+            image = arguments?.getString(ARG_PARAM_IMAGE).toString()
+            newsUrl = arguments?.getString(ARG_PARAM_URL).toString()
+            description = arguments?.getString(ARG_PARAM_DESCRIPTION).toString()
         }
-        return NewsItem(id!!, date, description, image, type, name)
+        return NewsItem(newsId, date, type, name, image, description, url = newsUrl)
     }
 
     override fun onDestroyView() {
@@ -70,6 +91,7 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
         private const val ARG_PARAM_IMAGE = "paramImageOfNews"
         private const val ARG_PARAM_NAME = "paramNameOfNews"
+        private const val ARG_PARAM_URL = "paramUrlOfNews"
 
         @JvmStatic
         fun newInstance(newsItem: NewsItem) =
@@ -81,6 +103,7 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
                     putString(ARG_PARAM_DESCRIPTION, newsItem.description)
                     putString(ARG_PARAM_IMAGE, newsItem.featureImage)
                     putString(ARG_PARAM_NAME, newsItem.name)
+                    putString(ARG_PARAM_URL, newsItem.url)
                 }
             }
     }
