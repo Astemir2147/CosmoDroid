@@ -19,5 +19,5 @@ abstract class NewsDao {
 
     /** Добавляет пост с новостью в базу данных */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun setFavouritesNews(contract: List<NewsEntity>)
+    abstract fun setFavouritesNews(contract: NewsEntity)
 }
