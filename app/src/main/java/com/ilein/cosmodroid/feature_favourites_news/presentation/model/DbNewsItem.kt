@@ -6,5 +6,6 @@ data class DbNewsItem(
     val description: String,
     val featureImage: String,
     val type: String,
-    val name: String
+    val name: String,
+    val url: String
 )

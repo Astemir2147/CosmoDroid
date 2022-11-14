@@ -10,5 +10,6 @@ fun NewsEntity.toDbPreviewModel() =
         type = typeOfNewsName,
         description = newsContent,
         featureImage = imageOfNews,
-        name = nameOfNews
+        name = nameOfNews,
+        url = newsUrl
     )

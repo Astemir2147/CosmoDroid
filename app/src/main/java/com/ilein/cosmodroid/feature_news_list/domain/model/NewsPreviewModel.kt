@@ -8,5 +8,6 @@ data class NewsPreviewModel(
     val description: String,
     val featureImage: String,
     val type: TypeOfNews,
-    val name: String
+    val name: String,
+    val url: String
 )

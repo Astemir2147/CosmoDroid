@@ -10,4 +10,5 @@ fun NewsResponce.toNewsPreviewModel() =
         featureImage = featureImage,
         type = type,
         name = name,
+        url = newsUrl ?: "https://dzen.ru"
     )

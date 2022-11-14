@@ -9,6 +9,7 @@ import com.ilein.cosmodroid.core.database.DatabaseConst.ID
 import com.ilein.cosmodroid.core.database.DatabaseConst.NEWS_CONTENT
 import com.ilein.cosmodroid.core.database.DatabaseConst.NEWS_IMAGE
 import com.ilein.cosmodroid.core.database.DatabaseConst.NEWS_NAME
+import com.ilein.cosmodroid.core.database.DatabaseConst.NEWS_URL
 import com.ilein.cosmodroid.core.database.DatabaseConst.TYPE_OF_NEWS
 
 @Entity(tableName = FAVOURITES_NEWS)
@@ -30,5 +31,8 @@ data class NewsEntity(
     val nameOfNews: String,
 
     @ColumnInfo(name = NEWS_IMAGE)
-    val imageOfNews: String
+    val imageOfNews: String,
+
+    @ColumnInfo(name = NEWS_URL)
+    val newsUrl: String
 )
