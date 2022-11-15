@@ -1,11 +1,12 @@
 package com.ilein.cosmodroid.search.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ilein.cosmodroid.databinding.SearchFragmentBinding
@@ -35,7 +36,16 @@ class SearchFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = args.title
         binding.tvSearchName.text = args.title
         myViewModel.loadSearchItemsList(args.id)
-        searchAdapter = SearchAdapter()
+
+        searchAdapter = SearchAdapter { typeId, id ->
+            findNavController().navigate(
+                SearchFragmentDirections.toSearchItemDetailFragmentWithParams(
+                    typeId,
+                    id
+                )
+            )
+        }
+
         binding.rvSearchResults.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter

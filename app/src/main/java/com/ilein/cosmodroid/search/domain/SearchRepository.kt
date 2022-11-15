@@ -1,5 +1,6 @@
 package com.ilein.cosmodroid.search.domain
 
+import com.ilein.cosmodroid.search.data.model.SearchResultAgencyByIdModel
 import com.ilein.cosmodroid.search.data.model.SearchResultAstronautModel
 import com.ilein.cosmodroid.search.data.model.SearchResultLaunchModel
 import com.ilein.cosmodroid.search.data.model.SearchResultModel
@@ -14,6 +15,8 @@ interface SearchRepository {
     suspend fun getAstronautsItems(): SearchResultsModel<SearchResultAstronautModel>
 
     suspend fun getAgenciesItems(): SearchResultsModel<SearchResultModel>
+
+    suspend fun getAgencyItemById(id: Int): SearchResultAgencyByIdModel
 
     suspend fun getSpaceStationsItems(): SearchResultsModel<SearchResultModel>
 }

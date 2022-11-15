@@ -36,6 +36,9 @@
         <argument
             android:name="title"
             app:argType="string" />
+        <action
+            android:id="@+id/toSearchItemDetailFragmentWithParams"
+            app:destination="@id/searchItemDetailFragment" />
     </fragment>
     <dialog
         android:id="@+id/modalBottomSheet"
@@ -52,4 +55,16 @@
         android:name="com.ilein.cosmodroid.feature_favourites_news.presentation.FavouritesNewsFragment"
         android:label="fragment_favourites_news"
         tools:layout="@layout/fragment_favourites_news" />
+    <fragment
+        android:id="@+id/searchItemDetailFragment"
+        android:name="com.ilein.cosmodroid.search.presentation.SearchItemDetailFragment"
+        android:label="item_search_detail_layout"
+        tools:layout="@layout/item_search_detail_layout" >
+        <argument
+            android:name="typeId"
+            app:argType="integer" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
