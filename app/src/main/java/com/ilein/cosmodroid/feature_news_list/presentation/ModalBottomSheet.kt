@@ -76,7 +76,8 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
             newsUrl = arguments?.getString(ARG_PARAM_URL).toString()
             description = arguments?.getString(ARG_PARAM_DESCRIPTION).toString()
         }
-        return NewsItem(newsId, date, type, name, image, description, url = newsUrl)
+        return NewsItem(id = newsId, date = date, type = type, name = name,
+            featureImage = image, description = description, url = newsUrl)
     }
 
     override fun onDestroyView() {
