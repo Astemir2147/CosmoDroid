@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.load
@@ -32,15 +33,25 @@ class SearchItemDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        myViewModel.loadSearchItem(args.typeId, args.id)
+        loadItems()
+    }
+
+    private fun loadItems() {
+        myViewModel.loadSearchItem(args.typeId, args.id, args.idStr)
 
         myViewModel.searchAgencyLiveData.observe(requireActivity()) {
             binding.tvDetailTitle.text = it.title
-            binding.ivDetailImage.load(it.imgUrl) {
-                transformations(RoundedCornersTransformation(16f))
-                scale(Scale.FILL)
+            binding.ivDetailImage.isVisible = !it.imgUrl.isNullOrBlank()
+            if (!it.imgUrl.isNullOrBlank()) {
+                binding.ivDetailImage.load(it.imgUrl) {
+                    transformations(RoundedCornersTransformation(16f))
+                    scale(Scale.FILL)
+                }
+            } else {
+                binding.ivDetailImage.visibility = View.GONE
             }
             binding.tvDetailDescription.text = it.description
+            binding.tvDetailFullDescription.text = it.fullDescription
         }
     }
 

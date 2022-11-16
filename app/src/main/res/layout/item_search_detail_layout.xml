@@ -22,10 +22,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvDetailDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tvAdditionalInfoTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Additional Info:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDetailFullDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
