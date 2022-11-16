@@ -15,7 +15,7 @@ data class SearchResultModel(
 )
 
 fun SearchResultModel.toSearchItem(enumSearchItem: EnumSearchItems): SearchItemModel {
-    val imageUrl = this.imageUrl ?: enumSearchItem.imgUrl
+    val imageUrl = this.imageUrl
     return SearchItemModel(this.id,
         this.id.toString(),
         this.name,

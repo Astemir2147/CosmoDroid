@@ -2,6 +2,7 @@ package com.ilein.cosmodroid.core.api
 
 import com.ilein.cosmodroid.feature_news_list.data.model.NewsModel
 import com.ilein.cosmodroid.feature_news_list.data.model.NewsResponce
+import com.ilein.cosmodroid.search.data.model.SearchResultAgencyByIdModel
 import com.ilein.cosmodroid.search.data.model.SearchResultAstronautModel
 import com.ilein.cosmodroid.search.data.model.SearchResultLaunchModel
 import com.ilein.cosmodroid.search.data.model.SearchResultModel
@@ -27,6 +28,9 @@ interface ApiRequest {
 
     @GET("agencies/")
     suspend fun getAgencies(): SearchResultsModel<SearchResultModel>
+
+    @GET("agencies/{id}")
+    suspend fun getAgenciesById(@Path("id") id: Int): SearchResultAgencyByIdModel
 
     @GET("spacestation/")
     suspend fun getSpaceStations(): SearchResultsModel<SearchResultModel>

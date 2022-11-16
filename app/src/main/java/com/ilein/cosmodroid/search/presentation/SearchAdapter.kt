@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,16 +16,11 @@ import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.search.data.model.SearchResultModel
 import com.ilein.cosmodroid.search.domain.model.SearchItemModel
 
-internal class SearchAdapter: ListAdapter<SearchResultModel, SearchAdapter.ViewHolder>(
+internal class SearchAdapter(private val onItemClick: (Int, Int) -> Unit): ListAdapter<SearchResultModel, SearchAdapter.ViewHolder>(
     SEARCH_ITEM_COMPARATOR
 ) {
-    private var clickListener: IOnItemClick? = null
 
     private val items: MutableList<SearchItemModel> = mutableListOf()
-
-    fun setClickListener(listener: IOnItemClick?) {
-        clickListener = listener
-    }
 
     fun setItems(newItems: List<SearchItemModel>) {
         DiffUtil.calculateDiff(DiffCallback(items, newItems.toList())).also { result ->
@@ -34,28 +30,27 @@ internal class SearchAdapter: ListAdapter<SearchResultModel, SearchAdapter.ViewH
         }
     }
 
-    interface IOnItemClick {
-        fun onItemClick(searchItem: SearchItemModel)
-    }
-
     internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var image: ImageView = itemView.findViewById(R.id.ivImage)
         private var itemTitle: TextView = itemView.findViewById(R.id.tvTitle)
         private var description: TextView = itemView.findViewById(R.id.tvDescription)
 
-        fun bind(searchItem: SearchItemModel) {
+        fun bind(onItemClick: (Int, Int) -> Unit, searchItem: SearchItemModel) {
 
             itemView.setOnClickListener {
-                clickListener?.onItemClick(searchItem)
+                onItemClick(searchItem.type.id, searchItem.id?: 0)
             }
 
             image.requestLayout()
             itemTitle.text = searchItem.title
             description.text = searchItem.description
 
-            image.load(searchItem.imgUrl) {
-                transformations(RoundedCornersTransformation(16f))
-                scale(Scale.FILL)
+            image.isVisible = !searchItem.imgUrl.isNullOrBlank()
+            if (image.isVisible) {
+                image.load(searchItem.imgUrl) {
+                    transformations(RoundedCornersTransformation(16f))
+                    scale(Scale.FILL)
+                }
             }
         }
     }
@@ -88,7 +83,7 @@ internal class SearchAdapter: ListAdapter<SearchResultModel, SearchAdapter.ViewH
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(onItemClick, items[position])
     }
 
     override fun getItemCount(): Int = items.size

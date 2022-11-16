@@ -1,6 +1,7 @@
 package com.ilein.cosmodroid.search.data.repository
 
 import com.ilein.cosmodroid.core.api.ApiRequest
+import com.ilein.cosmodroid.search.data.model.SearchResultAgencyByIdModel
 import com.ilein.cosmodroid.search.data.model.SearchResultAstronautModel
 import com.ilein.cosmodroid.search.data.model.SearchResultsModel
 import com.ilein.cosmodroid.search.domain.SearchRepository
@@ -23,6 +24,10 @@ class SearchRepositoryImpl(private val apiRequest: ApiRequest): SearchRepository
 
     override suspend fun getAgenciesItems(): SearchResultsModel<SearchResultModel> {
         return apiRequest.getAgencies()
+    }
+
+    override suspend fun getAgencyItemById(id: Int): SearchResultAgencyByIdModel {
+        return apiRequest.getAgenciesById(id)
     }
 
     override suspend fun getSpaceStationsItems(): SearchResultsModel<SearchResultModel> {

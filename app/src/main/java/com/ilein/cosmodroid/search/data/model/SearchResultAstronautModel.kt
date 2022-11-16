@@ -15,7 +15,7 @@ data class SearchResultAstronautModel(
 )
 
 fun SearchResultAstronautModel.toSearchItem(enumSearchItem: EnumSearchItems): SearchItemModel {
-    val imageUrl = this.profileImage ?: enumSearchItem.imgUrl
+    val imageUrl = this.profileImage
     return SearchItemModel(this.id,
         this.id.toString(),
         this.name,
