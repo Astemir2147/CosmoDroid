@@ -37,11 +37,12 @@ class SearchFragment : Fragment() {
         binding.tvSearchName.text = args.title
         myViewModel.loadSearchItemsList(args.id)
 
-        searchAdapter = SearchAdapter { typeId, id ->
+        searchAdapter = SearchAdapter { typeId, id, idStr ->
             findNavController().navigate(
                 SearchFragmentDirections.toSearchItemDetailFragmentWithParams(
                     typeId,
-                    id
+                    id,
+                    idStr
                 )
             )
         }

@@ -16,7 +16,7 @@ import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.search.data.model.SearchResultModel
 import com.ilein.cosmodroid.search.domain.model.SearchItemModel
 
-internal class SearchAdapter(private val onItemClick: (Int, Int) -> Unit): ListAdapter<SearchResultModel, SearchAdapter.ViewHolder>(
+internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit): ListAdapter<SearchResultModel, SearchAdapter.ViewHolder>(
     SEARCH_ITEM_COMPARATOR
 ) {
 
@@ -35,10 +35,10 @@ internal class SearchAdapter(private val onItemClick: (Int, Int) -> Unit): ListA
         private var itemTitle: TextView = itemView.findViewById(R.id.tvTitle)
         private var description: TextView = itemView.findViewById(R.id.tvDescription)
 
-        fun bind(onItemClick: (Int, Int) -> Unit, searchItem: SearchItemModel) {
+        fun bind(onItemClick: (Int, Int, String) -> Unit, searchItem: SearchItemModel) {
 
             itemView.setOnClickListener {
-                onItemClick(searchItem.type.id, searchItem.id?: 0)
+                onItemClick(searchItem.type.id, searchItem.id?:0, searchItem.idStr)
             }
 
             image.requestLayout()

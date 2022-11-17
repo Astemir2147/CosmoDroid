@@ -66,5 +66,8 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <argument
+            android:name="idStr"
+            app:argType="string" />
     </fragment>
 </navigation>
