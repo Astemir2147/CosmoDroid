@@ -12,23 +12,23 @@ import com.ilein.cosmodroid.search.data.model.SearchResultsModel
 
 interface SearchRepository {
 
-    suspend fun getEventsItems(): SearchResultsModel<SearchResultModel>
+    suspend fun getEventsItems(searchQuery: String): SearchResultsModel<SearchResultModel>
 
     suspend fun getEventsItemById(id: Int): SearchResultEventByIdModel
 
-    suspend fun getLaunchesItems(): SearchResultsModel<SearchResultLaunchModel>
+    suspend fun getLaunchesItems(searchQuery: String): SearchResultsModel<SearchResultLaunchModel>
 
     suspend fun getLaunchItemById(id: String): SearchResultLaunchByIdModel
 
-    suspend fun getAstronautsItems(): SearchResultsModel<SearchResultAstronautModel>
+    suspend fun getAstronautsItems(searchQuery: String): SearchResultsModel<SearchResultAstronautModel>
 
     suspend fun getAstronautItemById(id: Int): SearchResultAstronautByIdModel
 
-    suspend fun getAgenciesItems(): SearchResultsModel<SearchResultModel>
+    suspend fun getAgenciesItems(searchQuery: String): SearchResultsModel<SearchResultModel>
 
     suspend fun getAgencyItemById(id: Int): SearchResultAgencyByIdModel
 
-    suspend fun getSpaceStationsItems(): SearchResultsModel<SearchResultModel>
+    suspend fun getSpaceStationsItems(searchQuery: String): SearchResultsModel<SearchResultModel>
 
     suspend fun getSpaceStationsById(id: Int): SearchResultSpaceStationByIdModel
 }

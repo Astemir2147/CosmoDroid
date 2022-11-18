@@ -18,26 +18,26 @@ class SearchViewModel(private val searchInteractor: Interactor) : ViewModel() {
     val searchListLiveData: LiveData<List<SearchItemModel>>
         get() = searchListMutableLiveData
 
-    fun loadSearchItemsList(searchType: Int) {
+    fun loadSearchItemsList(searchType: Int, searchQuery: String) {
         val enumSearchItem: EnumSearchItems? = EnumSearchItems.getById(searchType)
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 val searchItems = ArrayList<SearchItemModel>()
                 when(enumSearchItem) {
                     EnumSearchItems.EVENTS -> {
-                        searchItems.addAll(searchInteractor.getEventsItems().toListSearchItem(enumSearchItem))
+                        searchItems.addAll(searchInteractor.getEventsItems(searchQuery).toListSearchItem(enumSearchItem))
                     }
                     EnumSearchItems.AGENCIES -> {
-                        searchItems.addAll(searchInteractor.getAgenciesItems().toListSearchItem(enumSearchItem))
+                        searchItems.addAll(searchInteractor.getAgenciesItems(searchQuery).toListSearchItem(enumSearchItem))
                     }
                     EnumSearchItems.ASTRONAUTS -> {
-                        searchItems.addAll(searchInteractor.getAstronautsItems().toListSearchItem(enumSearchItem))
+                        searchItems.addAll(searchInteractor.getAstronautsItems(searchQuery).toListSearchItem(enumSearchItem))
                     }
                     EnumSearchItems.STATIONS -> {
-                        searchItems.addAll(searchInteractor.getSpaceStationsItems().toListSearchItem(enumSearchItem))
+                        searchItems.addAll(searchInteractor.getSpaceStationsItems(searchQuery).toListSearchItem(enumSearchItem))
                     }
                     EnumSearchItems.LAUNCHES -> {
-                        searchItems.addAll(searchInteractor.getLaunchesItems().toListSearchItem(enumSearchItem))
+                        searchItems.addAll(searchInteractor.getLaunchesItems(searchQuery).toListSearchItem(enumSearchItem))
                     }
                     else -> {}
                 }
