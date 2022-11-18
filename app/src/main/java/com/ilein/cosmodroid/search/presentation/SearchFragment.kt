@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,9 +34,19 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = args.title
         binding.tvSearchName.text = args.title
-        myViewModel.loadSearchItemsList(args.id)
+        myViewModel.loadSearchItemsList(args.id, "")
+
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                myViewModel.loadSearchItemsList(args.id, binding.etSearch.text.toString())
+            }
+            true}
 
         searchAdapter = SearchAdapter { typeId, id, idStr ->
             findNavController().navigate(

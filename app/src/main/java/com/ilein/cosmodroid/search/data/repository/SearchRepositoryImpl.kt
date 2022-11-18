@@ -14,40 +14,40 @@ import com.ilein.cosmodroid.search.data.model.SearchResultSpaceStationByIdModel
 
 class SearchRepositoryImpl(private val apiRequest: ApiRequest): SearchRepository {
 
-    override suspend fun getEventsItems(): SearchResultsModel<SearchResultModel> {
-        return apiRequest.getEvents()
+    override suspend fun getEventsItems(searchQuery: String): SearchResultsModel<SearchResultModel> {
+        return apiRequest.getSearchEvents(searchQuery)
     }
 
     override suspend fun getEventsItemById(id: Int): SearchResultEventByIdModel {
         return apiRequest.getEventById(id)
     }
 
-    override suspend fun getLaunchesItems(): SearchResultsModel<SearchResultLaunchModel> {
-        return apiRequest.getLaunches()
+    override suspend fun getLaunchesItems(searchQuery: String): SearchResultsModel<SearchResultLaunchModel> {
+        return apiRequest.getSearchLaunches(searchQuery)
     }
 
     override suspend fun getLaunchItemById(id: String): SearchResultLaunchByIdModel {
         return apiRequest.getLaunchById(id)
     }
 
-    override suspend fun getAstronautsItems(): SearchResultsModel<SearchResultAstronautModel> {
-        return apiRequest.getAstronauts()
+    override suspend fun getAstronautsItems(searchQuery: String): SearchResultsModel<SearchResultAstronautModel> {
+        return apiRequest.getSearchAstronauts(searchQuery)
     }
 
     override suspend fun getAstronautItemById(id: Int): SearchResultAstronautByIdModel {
         return apiRequest.getAstronautById(id)
     }
 
-    override suspend fun getAgenciesItems(): SearchResultsModel<SearchResultModel> {
-        return apiRequest.getAgencies()
+    override suspend fun getAgenciesItems(searchQuery: String): SearchResultsModel<SearchResultModel> {
+        return apiRequest.getSearchAgencies(searchQuery)
     }
 
     override suspend fun getAgencyItemById(id: Int): SearchResultAgencyByIdModel {
         return apiRequest.getAgencyById(id)
     }
 
-    override suspend fun getSpaceStationsItems(): SearchResultsModel<SearchResultModel> {
-        return apiRequest.getSpaceStations()
+    override suspend fun getSpaceStationsItems(searchQuery: String): SearchResultsModel<SearchResultModel> {
+        return apiRequest.getSearchSpaceStations(searchQuery)
     }
 
     override suspend fun getSpaceStationsById(id: Int): SearchResultSpaceStationByIdModel {

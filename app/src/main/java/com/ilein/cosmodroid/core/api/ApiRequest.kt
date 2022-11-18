@@ -13,6 +13,7 @@ import com.ilein.cosmodroid.search.data.model.SearchResultSpaceStationByIdModel
 import com.ilein.cosmodroid.search.data.model.SearchResultsModel
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiRequest {
     @GET("event/")
@@ -22,31 +23,31 @@ interface ApiRequest {
     suspend fun getNewsById(@Path("id") id: Int): NewsResponce
 
     @GET("event/")
-    suspend fun getEvents(): SearchResultsModel<SearchResultModel>
+    suspend fun getSearchEvents(@Query("search") search: String): SearchResultsModel<SearchResultModel>
 
     @GET("event/{id}")
     suspend fun getEventById(@Path("id") id: Int): SearchResultEventByIdModel
 
     @GET("launch/")
-    suspend fun getLaunches(): SearchResultsModel<SearchResultLaunchModel>
+    suspend fun getSearchLaunches(@Query("search") search: String): SearchResultsModel<SearchResultLaunchModel>
 
     @GET("launch/{id}")
     suspend fun getLaunchById(@Path("id") id: String): SearchResultLaunchByIdModel
 
     @GET("astronaut/")
-    suspend fun getAstronauts(): SearchResultsModel<SearchResultAstronautModel>
+    suspend fun getSearchAstronauts(@Query("search") search: String): SearchResultsModel<SearchResultAstronautModel>
 
     @GET("astronaut/{id}")
     suspend fun getAstronautById(@Path("id") id: Int): SearchResultAstronautByIdModel
 
     @GET("agencies/")
-    suspend fun getAgencies(): SearchResultsModel<SearchResultModel>
+    suspend fun getSearchAgencies(@Query("search") search: String): SearchResultsModel<SearchResultModel>
 
     @GET("agencies/{id}")
     suspend fun getAgencyById(@Path("id") id: Int): SearchResultAgencyByIdModel
 
     @GET("spacestation/")
-    suspend fun getSpaceStations(): SearchResultsModel<SearchResultModel>
+    suspend fun getSearchSpaceStations(@Query("search") search: String): SearchResultsModel<SearchResultModel>
 
     @GET("spacestation/{id}")
     suspend fun getSpaceStationById(@Path("id") id: Int): SearchResultSpaceStationByIdModel
