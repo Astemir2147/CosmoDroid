@@ -12,4 +12,5 @@ object DatabaseConst {
     const val NEWS_CONTENT = "news_content"
     const val NEWS_IMAGE = "image_of_news"
     const val NEWS_URL = "news_url"
+    const val NEWS_VIDEO_URL = "news_video_url"
 }

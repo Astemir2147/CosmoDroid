@@ -14,7 +14,7 @@ data class NewsResponce(
     @SerializedName("location")
     val location: String,
     @SerializedName("news_url")
-    val newsUrl: String?,
+    val newsUrl: String,
     @SerializedName("video_url")
     val videoUrl: String,
     @SerializedName("feature_image")

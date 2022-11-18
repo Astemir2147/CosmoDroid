@@ -32,7 +32,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     }
 
     private fun handleNewsState(newsState: NewsViewState) {
-        refresh(newsState)
+        layoutHandle(newsState)
         when (newsState) {
             is NewsViewState.Shimmer -> newsState.shimmer()
             is NewsViewState.Content -> newsState.content()
@@ -40,7 +40,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         }
     }
 
-    private fun refresh(state: NewsViewState) {
+    private fun layoutHandle(state: NewsViewState) {
         with(binding) {
             shimmer.stopShimmer()
             shimmer.isVisible = state is NewsViewState.Shimmer
@@ -78,6 +78,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
             putString(ARG_PARAM_DESCRIPTION, newsItem.description)
             putString(ARG_PARAM_IMAGE, newsItem.featureImage)
             putString(ARG_PARAM_NAME, newsItem.name)
+            putString(ARG_PARAM_ViDEO_URL,newsItem.videoUrl)
         }
         findNavController().navigate(R.id.action_newsFragment_to_detailNewsFragment,arguments)
     }
@@ -94,6 +95,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
         private const val ARG_PARAM_IMAGE = "paramImageOfNews"
         private const val ARG_PARAM_NAME = "paramNameOfNews"
+        private const val ARG_PARAM_ViDEO_URL = "paramUrlVideoOfNews"
     }
 }
 

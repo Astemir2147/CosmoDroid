@@ -10,5 +10,6 @@ fun NewsResponce.toNewsPreviewModel() =
         featureImage = featureImage,
         type = type,
         name = name,
-        url = newsUrl ?: "https://dzen.ru"
+        url = newsUrl ?: "https://dzen.ru",
+        videoUrl = videoUrl ?: "https://www.youtube.com"
     )

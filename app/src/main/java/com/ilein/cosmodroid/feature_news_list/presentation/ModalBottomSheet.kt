@@ -19,13 +19,6 @@ import org.koin.android.ext.android.get
 
 class ModalBottomSheet: BottomSheetDialogFragment() {
     private var binding: FragmentModalBottomSheetBinding? = null
-    private var newsId: Int = 0
-    private lateinit var date: String
-    private lateinit var description: String
-    private lateinit var image: String
-    private lateinit var type: String
-    private lateinit var name: String
-    private lateinit var newsUrl: String
     private lateinit var database: NewsDao
 
     override fun onCreateView(
@@ -67,17 +60,16 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
     }
 
     private fun getNewsItem(): NewsItem {
-        arguments?.let {
-            newsId = requireArguments().getInt(ARG_PARAM_ID)
-            date = arguments?.getString(ARG_PARAM_DATE).toString()
-            type = arguments?.getString(ARG_PARAM_TYPE).toString()
-            name = arguments?.getString(ARG_PARAM_NAME).toString()
-            image = arguments?.getString(ARG_PARAM_IMAGE).toString()
-            newsUrl = arguments?.getString(ARG_PARAM_URL).toString()
-            description = arguments?.getString(ARG_PARAM_DESCRIPTION).toString()
-        }
-        return NewsItem(id = newsId, date = date, type = type, name = name,
-            featureImage = image, description = description, url = newsUrl)
+        return NewsItem(
+            id = requireArguments().getInt(ARG_PARAM_ID),
+            date = requireArguments().getString(ARG_PARAM_DATE).toString(),
+            type = requireArguments().getString(ARG_PARAM_TYPE).toString(),
+            name = requireArguments().getString(ARG_PARAM_NAME).toString(),
+            url = requireArguments().getString(ARG_PARAM_URL).toString(),
+            videoUrl = requireArguments().getString(ARG_PARAM_ViDEO_URL).toString(),
+            featureImage = requireArguments().getString(ARG_PARAM_IMAGE).toString(),
+            description = requireArguments().getString(ARG_PARAM_DESCRIPTION).toString()
+        )
     }
 
     override fun onDestroyView() {
@@ -94,6 +86,7 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         private const val ARG_PARAM_IMAGE = "paramImageOfNews"
         private const val ARG_PARAM_NAME = "paramNameOfNews"
         private const val ARG_PARAM_URL = "paramUrlOfNews"
+        private const val ARG_PARAM_ViDEO_URL = "paramIdVideoOfNews"
 
         @JvmStatic
         fun newInstance(newsItem: NewsItem) =
@@ -106,6 +99,7 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
                     putString(ARG_PARAM_IMAGE, newsItem.featureImage)
                     putString(ARG_PARAM_NAME, newsItem.name)
                     putString(ARG_PARAM_URL, newsItem.url)
+                    putString(ARG_PARAM_ViDEO_URL, newsItem.videoUrl)
                 }
             }
     }

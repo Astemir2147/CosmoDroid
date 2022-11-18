@@ -7,5 +7,6 @@ data class DbNewsPreviewModel(
     val featureImage: String,
     val type: String,
     val name: String,
-    val url: String
+    val url: String,
+    val videoUrl: String
 )
