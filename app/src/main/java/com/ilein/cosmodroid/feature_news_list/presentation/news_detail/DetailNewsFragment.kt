@@ -3,7 +3,6 @@ package com.ilein.cosmodroid.feature_news_list.presentation.news_detail
 import android.os.Bundle
 import android.util.SparseArray
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -14,6 +13,7 @@ import at.huber.youtubeExtractor.YtFile
 import coil.load
 import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
+import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 import com.ilein.cosmodroid.feature_news_list.presentation.state.DetailNewsViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,19 +21,20 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
     private lateinit var binding: FragmentDetailNewsBinding
     private val newsViewModel by viewModel<DetailNewsViewModel>()
     private lateinit var player: ExoPlayer
+    private lateinit var newsItem: NewsItem
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailNewsBinding.bind(view)
         binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
-        setDate()
+        newsItem = requireArguments().getSerializable(NEWS_ITEM) as NewsItem
+        itemHandler(newsItem)
         initializePlayer()
     }
 
-
     private fun initializePlayer() {
         player = ExoPlayer.Builder(requireContext()).build()
-        val videoLink = requireArguments().getString(ARG_PARAM_ViDEO_URL)
+        val videoLink = newsItem.videoUrl
         val playWhenReady = true
         val currentItem = 0
         val playbackPosition: Long = 0
@@ -41,7 +42,7 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
         player.seekTo(currentItem, playbackPosition)
         player.prepare()
 
-        class YouTubeExtractor1 : YouTubeExtractor(requireContext()) {
+        class PlayerExtractor: YouTubeExtractor(requireContext()) {
             override fun onExtractionComplete(
                 ytFiles: SparseArray<YtFile>?,
                 videoMeta: VideoMeta?
@@ -54,7 +55,7 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
                 }
             }
         }
-        YouTubeExtractor1().extract(videoLink)
+        PlayerExtractor().extract(videoLink)
         binding.newsVideo.player = player
     }
 
@@ -63,31 +64,20 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
         player.release()
     }
 
-    private fun newsViewModel(state: Boolean): Boolean {
-        when (state) {
-            true -> binding.detailNewsLayout.isVisible = true
-            false -> binding.detailErrorLayout.isVisible = true
-        }
-        return state
-    }
-
-    private fun setDate() {
+    private fun itemHandler(newsItem: NewsItem) {
         with(binding) {
-            val id = requireArguments().getInt(ARG_PARAM_ID)
-            if (newsViewModel(id!=null)) {
-                nameOfNews.text = requireArguments().getString(ARG_PARAM_NAME)
-                dateOfNewsDetail.text = requireArguments().getString(ARG_PARAM_DATE)
-                typeOfNewsDetail.text = requireArguments().getString(ARG_PARAM_TYPE)
-                newsContent.text = requireArguments().getString(ARG_PARAM_DESCRIPTION)
-                imageOfDetailNews.load(requireArguments().getString(ARG_PARAM_IMAGE))
-            }
+            nameOfNews.text = newsItem.name
+            dateOfNewsDetail.text = newsItem.name
+            typeOfNewsDetail.text = newsItem.type
+            newsContent.text = newsItem.description
+            imageOfDetailNews.load(newsItem.featureImage)
         }
     }
 
     private fun DetailNewsViewState.Error.handle() {
         with(binding) {
             btnErrorTryAgain.setOnClickListener {
-                getOnTryAction(requireArguments().getInt(ARG_PARAM_ID))
+                getOnTryAction(newsItem.id)
             }
             textErrorTitle.setText(error.title)
             textErrorDescription.setText(error.description)
@@ -99,12 +89,6 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
     }
 
     companion object {
-        private const val ARG_PARAM_ID = "paramIdOfNews"
-        private const val ARG_PARAM_ViDEO_URL = "paramUrlVideoOfNews"
-        private const val ARG_PARAM_DATE = "paramDateOfNews"
-        private const val ARG_PARAM_TYPE = "paramTypeOfNews"
-        private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
-        private const val ARG_PARAM_IMAGE = "paramImageOfNews"
-        private const val ARG_PARAM_NAME = "paramNameOfNews"
+        private const val NEWS_ITEM = "newsItem"
     }
 }

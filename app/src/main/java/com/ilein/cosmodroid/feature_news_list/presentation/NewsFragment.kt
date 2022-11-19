@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 import com.ilein.cosmodroid.feature_news_list.presentation.state.NewsViewState
 
-class NewsFragment : Fragment(R.layout.fragment_news) {
+class NewsFragment: Fragment(R.layout.fragment_news) {
     private lateinit var binding: FragmentNewsBinding
     private lateinit var newsAdapter: NewsAdapter
     private val newsViewModel by viewModel<NewsViewModel>()
@@ -72,30 +72,18 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private fun showDetailNews(newsItem: NewsItem) {
         arguments = Bundle().apply {
-            putInt(ARG_PARAM_ID, newsItem.id)
-            putString(ARG_PARAM_DATE, newsItem.date)
-            putString(ARG_PARAM_TYPE, newsItem.type)
-            putString(ARG_PARAM_DESCRIPTION, newsItem.description)
-            putString(ARG_PARAM_IMAGE, newsItem.featureImage)
-            putString(ARG_PARAM_NAME, newsItem.name)
-            putString(ARG_PARAM_ViDEO_URL,newsItem.videoUrl)
+            putSerializable(NEWS_ITEM, newsItem)
         }
-        findNavController().navigate(R.id.action_newsFragment_to_detailNewsFragment,arguments)
+        findNavController().navigate(R.id.action_newsFragment_to_detailNewsFragment, arguments)
     }
 
     private fun showBottomSheet(newsItem: NewsItem) {
         val modalBottomSheet = ModalBottomSheet.newInstance(newsItem)
-        modalBottomSheet.show(parentFragmentManager,ModalBottomSheet.TAG)
+        modalBottomSheet.show(parentFragmentManager, ModalBottomSheet.TAG)
     }
 
     private companion object {
-        private const val ARG_PARAM_ID = "paramIdOfNews"
-        private const val ARG_PARAM_DATE = "paramDateOfNews"
-        private const val ARG_PARAM_TYPE = "paramTypeOfNews"
-        private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
-        private const val ARG_PARAM_IMAGE = "paramImageOfNews"
-        private const val ARG_PARAM_NAME = "paramNameOfNews"
-        private const val ARG_PARAM_ViDEO_URL = "paramUrlVideoOfNews"
+        private const val NEWS_ITEM = "newsItem"
     }
 }
 

@@ -59,18 +59,8 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         startActivity(browserIntent)
     }
 
-    private fun getNewsItem(): NewsItem {
-        return NewsItem(
-            id = requireArguments().getInt(ARG_PARAM_ID),
-            date = requireArguments().getString(ARG_PARAM_DATE).toString(),
-            type = requireArguments().getString(ARG_PARAM_TYPE).toString(),
-            name = requireArguments().getString(ARG_PARAM_NAME).toString(),
-            url = requireArguments().getString(ARG_PARAM_URL).toString(),
-            videoUrl = requireArguments().getString(ARG_PARAM_ViDEO_URL).toString(),
-            featureImage = requireArguments().getString(ARG_PARAM_IMAGE).toString(),
-            description = requireArguments().getString(ARG_PARAM_DESCRIPTION).toString()
-        )
-    }
+    private fun getNewsItem(): NewsItem =
+        requireArguments().getSerializable(NEWS_ITEM) as NewsItem
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -79,27 +69,13 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "ModalBottomSheet"
-        private const val ARG_PARAM_ID = "paramIdOfNews"
-        private const val ARG_PARAM_DATE = "paramDateOfNews"
-        private const val ARG_PARAM_TYPE = "paramTypeOfNews"
-        private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
-        private const val ARG_PARAM_IMAGE = "paramImageOfNews"
-        private const val ARG_PARAM_NAME = "paramNameOfNews"
-        private const val ARG_PARAM_URL = "paramUrlOfNews"
-        private const val ARG_PARAM_ViDEO_URL = "paramIdVideoOfNews"
+        private const val NEWS_ITEM = "newsItem"
 
         @JvmStatic
         fun newInstance(newsItem: NewsItem) =
             ModalBottomSheet().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_PARAM_ID, newsItem.id)
-                    putString(ARG_PARAM_DATE, newsItem.date)
-                    putString(ARG_PARAM_TYPE, newsItem.type)
-                    putString(ARG_PARAM_DESCRIPTION, newsItem.description)
-                    putString(ARG_PARAM_IMAGE, newsItem.featureImage)
-                    putString(ARG_PARAM_NAME, newsItem.name)
-                    putString(ARG_PARAM_URL, newsItem.url)
-                    putString(ARG_PARAM_ViDEO_URL, newsItem.videoUrl)
+                    putSerializable(NEWS_ITEM, newsItem)
                 }
             }
     }
