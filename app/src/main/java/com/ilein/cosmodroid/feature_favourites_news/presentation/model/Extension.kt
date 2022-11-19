@@ -11,7 +11,8 @@ fun DbNewsPreviewModel.dbNewsToDbNewsItem() =
         featureImage = featureImage,
         type = type,
         name = name,
-        url = url
+        url = url,
+        videoUrl = videoUrl
     )
 
 fun DbNewsItem.dbNewsToNewsItem() =
@@ -22,5 +23,6 @@ fun DbNewsItem.dbNewsToNewsItem() =
         featureImage = featureImage,
         type = type,
         name = name,
-        url = url
+        url = url,
+        videoUrl = videoUrl
     )

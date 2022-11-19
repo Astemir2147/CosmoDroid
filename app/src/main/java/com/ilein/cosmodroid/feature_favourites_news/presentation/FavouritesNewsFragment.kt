@@ -49,12 +49,7 @@ class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
 
     private fun showDetailNews(newsItem: DbNewsItem) {
         arguments = Bundle().apply {
-            putInt(ARG_PARAM_ID, newsItem.id)
-            putString(ARG_PARAM_DATE, newsItem.date)
-            putString(ARG_PARAM_TYPE, newsItem.type)
-            putString(ARG_PARAM_DESCRIPTION, newsItem.description)
-            putString(ARG_PARAM_IMAGE, newsItem.featureImage)
-            putString(ARG_PARAM_NAME, newsItem.name)
+            putSerializable(NEWS_ITEM, newsItem.dbNewsToNewsItem())
         }
         findNavController().navigate(R.id.detailNewsLayout, arguments)
     }
@@ -65,11 +60,6 @@ class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
     }
 
     private companion object {
-        private const val ARG_PARAM_ID = "paramIdOfNews"
-        private const val ARG_PARAM_DATE = "paramDateOfNews"
-        private const val ARG_PARAM_TYPE = "paramTypeOfNews"
-        private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
-        private const val ARG_PARAM_IMAGE = "paramImageOfNews"
-        private const val ARG_PARAM_NAME = "paramNameOfNews"
+        private const val NEWS_ITEM = "newsItem"
     }
 }

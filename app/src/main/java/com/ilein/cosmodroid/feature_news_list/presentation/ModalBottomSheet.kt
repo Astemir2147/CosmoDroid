@@ -19,13 +19,6 @@ import org.koin.android.ext.android.get
 
 class ModalBottomSheet: BottomSheetDialogFragment() {
     private var binding: FragmentModalBottomSheetBinding? = null
-    private var newsId: Int = 0
-    private lateinit var date: String
-    private lateinit var description: String
-    private lateinit var image: String
-    private lateinit var type: String
-    private lateinit var name: String
-    private lateinit var newsUrl: String
     private lateinit var database: NewsDao
 
     override fun onCreateView(
@@ -66,19 +59,8 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
         startActivity(browserIntent)
     }
 
-    private fun getNewsItem(): NewsItem {
-        arguments?.let {
-            newsId = requireArguments().getInt(ARG_PARAM_ID)
-            date = arguments?.getString(ARG_PARAM_DATE).toString()
-            type = arguments?.getString(ARG_PARAM_TYPE).toString()
-            name = arguments?.getString(ARG_PARAM_NAME).toString()
-            image = arguments?.getString(ARG_PARAM_IMAGE).toString()
-            newsUrl = arguments?.getString(ARG_PARAM_URL).toString()
-            description = arguments?.getString(ARG_PARAM_DESCRIPTION).toString()
-        }
-        return NewsItem(id = newsId, date = date, type = type, name = name,
-            featureImage = image, description = description, url = newsUrl)
-    }
+    private fun getNewsItem(): NewsItem =
+        requireArguments().getSerializable(NEWS_ITEM) as NewsItem
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -87,25 +69,13 @@ class ModalBottomSheet: BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "ModalBottomSheet"
-        private const val ARG_PARAM_ID = "paramIdOfNews"
-        private const val ARG_PARAM_DATE = "paramDateOfNews"
-        private const val ARG_PARAM_TYPE = "paramTypeOfNews"
-        private const val ARG_PARAM_DESCRIPTION = "paramPreviewOfNews"
-        private const val ARG_PARAM_IMAGE = "paramImageOfNews"
-        private const val ARG_PARAM_NAME = "paramNameOfNews"
-        private const val ARG_PARAM_URL = "paramUrlOfNews"
+        private const val NEWS_ITEM = "newsItem"
 
         @JvmStatic
         fun newInstance(newsItem: NewsItem) =
             ModalBottomSheet().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_PARAM_ID, newsItem.id)
-                    putString(ARG_PARAM_DATE, newsItem.date)
-                    putString(ARG_PARAM_TYPE, newsItem.type)
-                    putString(ARG_PARAM_DESCRIPTION, newsItem.description)
-                    putString(ARG_PARAM_IMAGE, newsItem.featureImage)
-                    putString(ARG_PARAM_NAME, newsItem.name)
-                    putString(ARG_PARAM_URL, newsItem.url)
+                    putSerializable(NEWS_ITEM, newsItem)
                 }
             }
     }

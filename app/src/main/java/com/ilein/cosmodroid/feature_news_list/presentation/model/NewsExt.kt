@@ -11,7 +11,8 @@ fun NewsPreviewModel.toNewsItem() =
         featureImage = featureImage,
         type = type.name,
         name = name,
-        url = url
+        url = url,
+        videoUrl = videoUrl
     )
 
 fun NewsItem.toNewsEntity() = NewsEntity(
@@ -21,5 +22,6 @@ fun NewsItem.toNewsEntity() = NewsEntity(
     typeOfNewsName = type,
     nameOfNews = name,
     imageOfNews = featureImage,
-    newsUrl = url
+    newsUrl = url,
+    videoUrl = videoUrl
 )
