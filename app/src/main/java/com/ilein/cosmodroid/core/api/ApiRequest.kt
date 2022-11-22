@@ -22,6 +22,9 @@ interface ApiRequest {
     @GET("event/{id}")
     suspend fun getNewsById(@Path("id") id: Int): NewsResponce
 
+    @GET("event/?")
+    suspend fun getNewsByType(@Query("type") typeId: Int): NewsModel
+
     @GET("event/")
     suspend fun getSearchEvents(@Query("search") search: String): SearchResultsModel<SearchResultModel>
 

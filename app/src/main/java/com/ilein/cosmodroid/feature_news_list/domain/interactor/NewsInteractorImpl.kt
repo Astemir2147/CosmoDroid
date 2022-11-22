@@ -9,6 +9,9 @@ class NewsInteractorImpl(private val newsRepository: NewsRepository): NewsIntera
     override suspend fun getNewsList(): ResultState<List<NewsPreviewModel>> =
         safeCall { newsRepository.getNewsList() }
 
-    override suspend fun getDetailNews(id:Int): ResultState<NewsPreviewModel> =
+    override suspend fun getDetailNews(id: Int): ResultState<NewsPreviewModel> =
         safeCall { newsRepository.getDetailNews(id = id) }
+
+    override suspend fun getNewListByType(typeId: Int): ResultState<List<NewsPreviewModel>> =
+        safeCall { newsRepository.getNewListByType(typeId = typeId) }
 }

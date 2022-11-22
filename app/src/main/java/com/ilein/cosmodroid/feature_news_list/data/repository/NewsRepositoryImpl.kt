@@ -14,4 +14,8 @@ class NewsRepositoryImpl(private val apiRequest: ApiRequest): NewsRepository {
     override suspend fun getDetailNews(id: Int): NewsPreviewModel {
         return apiRequest.getNewsById(id = id).toNewsPreviewModel()
     }
+
+    override suspend fun getNewListByType(typeId: Int): List<NewsPreviewModel> {
+        return apiRequest.getNewsByType(typeId = typeId).results.map { it.toNewsPreviewModel() }
+    }
 }
