@@ -11,23 +11,23 @@ import com.ilein.cosmodroid.search.data.model.SearchResultSpaceStationByIdModel
 
 interface Interactor {
 
-    suspend fun getEventsItems(searchQuery: String): List<SearchResultModel>
+    suspend fun getEventsItems(searchQuery: String): ResultState<List<SearchResultModel>>
 
-    suspend fun getEventById(id: Int): SearchResultEventByIdModel
+    suspend fun getEventById(id: Int): ResultState<SearchResultEventByIdModel>
 
-    suspend fun getLaunchesItems(searchQuery: String): List<SearchResultLaunchModel>
+    suspend fun getLaunchesItems(searchQuery: String): ResultState<List<SearchResultLaunchModel>>
 
-    suspend fun getLaunchById(id: String): SearchResultLaunchByIdModel
+    suspend fun getLaunchById(id: String): ResultState<SearchResultLaunchByIdModel>
 
-    suspend fun getAstronautsItems(searchQuery: String): List<SearchResultAstronautModel>
+    suspend fun getAstronautsItems(searchQuery: String): ResultState<List<SearchResultAstronautModel>>
 
-    suspend fun getAstronautById(id: Int): SearchResultAstronautByIdModel
+    suspend fun getAstronautById(id: Int): ResultState<SearchResultAstronautByIdModel>
 
-    suspend fun getAgenciesItems(searchQuery: String): List<SearchResultModel>
+    suspend fun getAgenciesItems(searchQuery: String): ResultState<List<SearchResultModel>>
 
-    suspend fun getAgencyById(id: Int): SearchResultAgencyByIdModel
+    suspend fun getAgencyById(id: Int): ResultState<SearchResultAgencyByIdModel>
 
-    suspend fun getSpaceStationsItems(searchQuery: String): List<SearchResultModel>
+    suspend fun getSpaceStationsItems(searchQuery: String): ResultState<List<SearchResultModel>>
 
-    suspend fun getSpaceStationById(id: Int): SearchResultSpaceStationByIdModel
+    suspend fun getSpaceStationById(id: Int): ResultState<SearchResultSpaceStationByIdModel>
 }
