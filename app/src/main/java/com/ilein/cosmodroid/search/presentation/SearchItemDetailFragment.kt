@@ -11,6 +11,8 @@ import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.ilein.cosmodroid.databinding.ItemSearchDetailLayoutBinding
+import com.ilein.cosmodroid.search.domain.model.SearchItemDetailModel
+import com.ilein.cosmodroid.search.state.SearchItemViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -37,22 +39,53 @@ class SearchItemDetailFragment : Fragment() {
     }
 
     private fun loadItems() {
+        myViewModel.searchItemLiveData.observe(requireActivity(), ::handleSearchState)
         myViewModel.loadSearchItem(args.typeId, args.id, args.idStr)
+    }
 
-        myViewModel.searchAgencyLiveData.observe(requireActivity()) {
-            binding.tvDetailTitle.text = it.title
-            binding.ivDetailImage.isVisible = !it.imgUrl.isNullOrBlank()
-            if (!it.imgUrl.isNullOrBlank()) {
-                binding.ivDetailImage.load(it.imgUrl) {
-                    transformations(RoundedCornersTransformation(16f))
-                    scale(Scale.FILL)
-                }
-            } else {
-                binding.ivDetailImage.visibility = View.GONE
-            }
-            binding.tvDetailDescription.text = it.description
-            binding.tvDetailFullDescription.text = it.fullDescription
+    private fun handleSearchState(searchState: SearchItemViewState) {
+        layoutHandle(searchState)
+        when (searchState) {
+            is SearchItemViewState.Content -> searchState.content()
+            is SearchItemViewState.Error -> searchState.handle()
+            else -> {}
         }
+    }
+
+    private fun layoutHandle(state: SearchItemViewState) {
+        with(binding) {
+            llMain.isVisible = state is SearchItemViewState.Content
+            errorLayout.isVisible = state is SearchItemViewState.Error
+        }
+    }
+
+    private fun SearchItemViewState.Content.content() {
+        binding.tvDetailTitle.text = searchItem.title
+        binding.ivDetailImage.isVisible = !searchItem.imgUrl.isNullOrBlank()
+        if (!searchItem.imgUrl.isNullOrBlank()) {
+            binding.ivDetailImage.load(searchItem.imgUrl) {
+                transformations(RoundedCornersTransformation(16f))
+                scale(Scale.FILL)
+            }
+        } else {
+            binding.ivDetailImage.visibility = View.GONE
+        }
+        binding.tvDetailDescription.text = searchItem.description
+        binding.tvDetailFullDescription.text = searchItem.fullDescription
+    }
+
+    private fun SearchItemViewState.Error.handle() {
+        with(binding) {
+            btnErrorTryAgain.setOnClickListener {
+                getOnTryAction(args.typeId, args.id, args.idStr)
+            }
+            textErrorTitle.setText(error.title)
+            textErrorDescription.setText(error.description)
+        }
+    }
+
+    private fun getOnTryAction(typeId: Int, id: Int, idStr: String) {
+        return myViewModel.loadSearchItem(typeId, id, idStr)
     }
 
     override fun onDestroyView() {

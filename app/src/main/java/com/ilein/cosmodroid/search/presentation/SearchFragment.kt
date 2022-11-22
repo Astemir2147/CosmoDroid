@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ilein.cosmodroid.databinding.SearchFragmentBinding
+import com.ilein.cosmodroid.search.state.SearchViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -46,7 +48,8 @@ class SearchFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 myViewModel.loadSearchItemsList(args.id, binding.etSearch.text.toString())
             }
-            true}
+            true
+        }
 
         searchAdapter = SearchAdapter { typeId, id, idStr ->
             findNavController().navigate(
@@ -62,11 +65,50 @@ class SearchFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = searchAdapter
         }
-        myViewModel.searchListLiveData.observe(requireActivity()) {
-            binding.rvSearchResults.apply {
-                adapter = searchAdapter
-                searchAdapter.setItems(it)
-            }
+        myViewModel.contentState.observe(requireActivity(), ::handleSearchState)
+        binding.rvSearchResults.adapter = searchAdapter
+        myViewModel.loadSearchItemsList(args.id, "")
+    }
+
+    private fun handleSearchState(searchState: SearchViewState) {
+        layoutHandle(searchState)
+        when (searchState) {
+            is SearchViewState.Shimmer -> searchState.shimmer()
+            is SearchViewState.Content -> searchState.content()
+            is SearchViewState.Error -> searchState.error()
         }
+    }
+
+    private fun SearchViewState.Content.content() {
+        searchAdapter.setItems(newItems = searchItemsList)
+        binding.rvSearchResults.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = searchAdapter
+        }
+    }
+
+    private fun SearchViewState.Error.error() {
+        with(binding) {
+            btnErrorTryAgain.setOnClickListener { getOnTryAction() }
+            textErrorTitle.setText(error.title)
+            textErrorDescription.setText(error.description)
+        }
+    }
+
+    private fun SearchViewState.Shimmer.shimmer() {
+        binding.shimmer.startShimmer()
+    }
+
+    private fun layoutHandle(state: SearchViewState) {
+        with(binding) {
+            shimmer.stopShimmer()
+            shimmer.isVisible = state is SearchViewState.Shimmer
+            llMain.isVisible = state is SearchViewState.Content
+            errorLayout.isVisible = state is SearchViewState.Error
+        }
+    }
+
+    private fun getOnTryAction() {
+        return myViewModel.loadSearchItemsList(args.id, "")
     }
 }
