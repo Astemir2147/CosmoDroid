@@ -8,6 +8,7 @@ import com.ilein.cosmodroid.search.data.model.SearchResultModel
 import com.ilein.cosmodroid.search.data.model.SearchResultsModel
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiRequest {
     @GET("event/")
@@ -15,6 +16,9 @@ interface ApiRequest {
 
     @GET("event/{id}")
     suspend fun getNewsById(@Path("id") id: Int): NewsResponce
+
+    @GET("event/?")
+    suspend fun getNewsByType(@Query("type") typeId: Int): NewsModel
 
     @GET("event/")
     suspend fun getEvents(): SearchResultsModel<SearchResultModel>

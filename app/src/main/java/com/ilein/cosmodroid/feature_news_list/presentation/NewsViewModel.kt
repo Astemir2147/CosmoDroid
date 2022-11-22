@@ -29,6 +29,16 @@ class NewsViewModel(private val newsInteractor: NewsInteractor): ViewModel() {
         }
     }
 
+    fun getNewsListByType(newsType: Int) {
+        viewModelScope.launch {
+            newsViewState.value = NewsViewState.Shimmer
+            when (val news = newsInteractor.getNewListByType(newsType)) {
+                is ResultState.Success -> { dispatcherSuccess(news.data.map { it.toNewsItem() }) }
+                is ResultState.Error -> { dispatcherError(news.errorData) }
+            }
+        }
+    }
+
     private suspend fun dispatcherSuccess(list: List<NewsItem>) {
         withContext(Dispatchers.Main) {
             newsViewState.postValue(NewsViewState.Content(newsList = list))
