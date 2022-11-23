@@ -39,6 +39,12 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         binding?.addToFavourite?.setOnClickListener { favouriteStateHandler() }
         binding?.shareAnNews?.setOnClickListener { shareNews(newsItem) }
         binding?.openOriginalNewsPage?.setOnClickListener { openUrlInBrowser(newsItem.url) }
+        binding?.translateNews?.setOnClickListener {
+            translateNewsInBrowser(
+                newsText = newsItem.description,
+                newsUrl = newsItem.url
+            )
+        }
         viewModel.checkIsDataExists(newsId = newsItem.id)
     }
 
@@ -73,6 +79,16 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
 
     private fun openUrlInBrowser(url: String) {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        this.dismiss()
+        startActivity(browserIntent)
+    }
+
+    private fun translateNewsInBrowser(newsUrl: String, newsText: String) {
+        val originalNewsUrl = "\n $newsUrl"
+        val translateWebSite = "https://translate.google.ru/?sl=en&tl=ru&text=$newsText&op=translate"
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse( translateWebSite + originalNewsUrl))
+
         this.dismiss()
         startActivity(browserIntent)
     }
