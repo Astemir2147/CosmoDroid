@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/standard_bottom_sheet"
     style="@style/Widget.Material3.BottomSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingBottom="20dp"
     app:layout_behavior="com.google.android.material.bottom-sheet.BottomSheetBehavior"
     tools:context=".common.modalBottomSheet.presentation.ModalBottomSheet"
@@ -25,10 +26,7 @@
         android:textSize="16sp"
         app:icon="@drawable/icon_favorite_heart"
         app:iconPadding="20dp"
-        app:iconTint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:iconTint="@color/black" />
 
     <Button
         android:id="@+id/openOriginalNewsPage"
@@ -43,11 +41,7 @@
         android:textSize="@dimen/bottom_sheet_text_size"
         app:icon="@drawable/icon_news"
         app:iconPadding="20dp"
-        app:iconTint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/translateNews"
-        app:layout_constraintTop_toBottomOf="@+id/translateNews" />
+        app:iconTint="@color/black" />
 
     <Button
         android:id="@+id/translateNews"
@@ -62,11 +56,7 @@
         android:textSize="@dimen/bottom_sheet_text_size"
         app:icon="@drawable/icon_translate_language"
         app:iconPadding="20dp"
-        app:iconTint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/shareAnNews"
-        app:layout_constraintTop_toBottomOf="@+id/shareAnNews" />
+        app:iconTint="@color/black" />
 
     <Button
         android:id="@+id/shareAnNews"
@@ -81,9 +71,5 @@
         android:textSize="@dimen/bottom_sheet_text_size"
         app:icon="@drawable/icon_share"
         app:iconPadding="20dp"
-        app:iconTint="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/addToFavourite"
-        app:layout_constraintTop_toBottomOf="@+id/addToFavourite" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:iconTint="@color/black" />
+</LinearLayout>

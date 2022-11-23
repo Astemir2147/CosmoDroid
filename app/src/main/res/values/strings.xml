@@ -7,7 +7,6 @@
     <string name="search_menu">Search Menu</string>
     <string name="search_hint">Search</string>
     <string name="previous">Previous</string>
-
     <string name="date_of_news">date of news</string>
     <string name="preview_of_news">preview of news</string>
     <string name="type_of_news">type of news</string>
@@ -17,6 +16,7 @@
     <string name="loading_error_description">Повторите запрос или попробуйте позднее</string>
     <string name="refresh">Обновить</string>
     <string name="add_favourite_text">Добавить в избранное</string>
+    <string name="remove_favourite_text">Удалить из избранного</string>
     <string name="open_original_article">Открыть оригинал статьи</string>
     <string name="translate_article">Перевести статью</string>
     <string name="share">Поделиться</string>

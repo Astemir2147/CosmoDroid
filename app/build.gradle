@@ -15,9 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         buildConfigField "String", "API_BASE_URL", '"ll.thespacedevs.com"'
         buildConfigField "String", "API_VERSION", '"2.2.0"'
     }
@@ -66,12 +64,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_interceptor"
-    // Exoplayer
-    implementation "androidx.media3:media3-exoplayer:$exo_player"
-    implementation "androidx.media3:media3-exoplayer-dash:$exo_player"
-    implementation "androidx.media3:media3-ui:$exo_player"
-    implementation 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
-    implementation "androidx.multidex:multidex:2.0.1"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
