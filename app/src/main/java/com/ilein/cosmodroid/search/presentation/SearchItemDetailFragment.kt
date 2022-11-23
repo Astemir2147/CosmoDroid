@@ -1,15 +1,18 @@
 package com.ilein.cosmodroid.search.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
+import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.databinding.ItemSearchDetailLayoutBinding
 import com.ilein.cosmodroid.search.domain.model.SearchItemDetailModel
 import com.ilein.cosmodroid.search.state.SearchItemViewState
@@ -24,6 +27,7 @@ class SearchItemDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val myViewModel by viewModel<SearchItemDetailViewModel>()
+    private lateinit var searchItemDetail: SearchItemDetailModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +39,9 @@ class SearchItemDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.goBackStack.setOnClickListener { findNavController().popBackStack() }
+        binding.searchDetailShare.setOnClickListener { shareItem(searchItemDetail) }
+
         loadItems()
     }
 
@@ -60,6 +67,7 @@ class SearchItemDetailFragment : Fragment() {
     }
 
     private fun SearchItemViewState.Content.content() {
+        searchItemDetail = searchItem
         binding.tvDetailTitle.text = searchItem.title
         binding.ivDetailImage.isVisible = !searchItem.imgUrl.isNullOrBlank()
         if (!searchItem.imgUrl.isNullOrBlank()) {
@@ -86,6 +94,23 @@ class SearchItemDetailFragment : Fragment() {
 
     private fun getOnTryAction(typeId: Int, id: Int, idStr: String) {
         return myViewModel.loadSearchItem(typeId, id, idStr)
+    }
+
+    private fun shareItem(searchItem: SearchItemDetailModel) {
+        val typeShare = "text/plain"
+        val extraText: String = getString(R.string.share_search_item_text).format(
+            searchItem.title, searchItem.imgUrl,
+            searchItem.description, searchItem.fullDescription
+        )
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, extraText)
+            type = typeShare
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     override fun onDestroyView() {

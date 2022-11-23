@@ -13,6 +13,7 @@ import coil.load
 import coil.size.Scale
 import coil.transform.RoundedCornersTransformation
 import com.ilein.cosmodroid.R
+import com.ilein.cosmodroid.search.data.model.EnumSearchItems
 import com.ilein.cosmodroid.search.data.model.SearchResultModel
 import com.ilein.cosmodroid.search.domain.model.SearchItemModel
 
@@ -46,10 +47,16 @@ internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit
             description.text = searchItem.description
 
             image.isVisible = !searchItem.imgUrl.isNullOrBlank()
+            if (searchItem.type == EnumSearchItems.ASTRONAUTS) {
+                image.scaleType = ImageView.ScaleType.FIT_CENTER
+            } else {
+                image.scaleType = ImageView.ScaleType.CENTER_CROP
+            }
             if (image.isVisible) {
+                val imageScale = Scale.FIT
                 image.load(searchItem.imgUrl) {
                     transformations(RoundedCornersTransformation(16f))
-                    scale(Scale.FILL)
+                    scale(imageScale)
                 }
             }
         }

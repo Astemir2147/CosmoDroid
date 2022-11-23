@@ -20,4 +20,6 @@
     <string name="open_original_article">Открыть оригинал статьи</string>
     <string name="translate_article">Перевести статью</string>
     <string name="share">Поделиться</string>
+
+    <string name="share_search_item_text">Hi! Watch this: \n%1$s\n%2$s\n%3$s\nAdditional Info:\n%4$s</string>
 </resources>
