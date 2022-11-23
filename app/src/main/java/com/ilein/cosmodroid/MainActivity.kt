@@ -15,7 +15,9 @@ import com.ilein.cosmodroid.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val navController by lazy { Navigation.findNavController(this, R.id.nav_host_fragment_content_main) }
+    private val navController by lazy(LazyThreadSafetyMode.NONE) {
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_main)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setupNav()
         navView.setupWithNavController(navController)
     }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }

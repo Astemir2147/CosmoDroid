@@ -1,11 +1,13 @@
 package com.ilein.cosmodroid.feature_favourites_news.presentation
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ilein.cosmodroid.R
+import com.ilein.cosmodroid.ViewBindingFragment
 import com.ilein.cosmodroid.databinding.FragmentFavouritesNewsBinding
 import com.ilein.cosmodroid.feature_favourites_news.presentation.adapter.FavoritesAdapter
 import com.ilein.cosmodroid.feature_favourites_news.presentation.model.DbNewsItem
@@ -13,14 +15,15 @@ import com.ilein.cosmodroid.feature_favourites_news.presentation.model.dbNewsToN
 import com.ilein.cosmodroid.common.modalBottomSheet.presentation.ModalBottomSheet
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
-    private lateinit var binding: FragmentFavouritesNewsBinding
+class FavouritesNewsFragment : ViewBindingFragment<FragmentFavouritesNewsBinding>() {
     private lateinit var adapter: FavoritesAdapter
     private val favouriteViewModel by viewModel<FavouritesNewsViewModel>()
 
+    override val initBinding: (inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> FragmentFavouritesNewsBinding =
+    FragmentFavouritesNewsBinding::inflate
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentFavouritesNewsBinding.bind(view)
         adapter = FavoritesAdapter(
             showBottomSheet = { showBottomSheet(it) },
             showDetailNews = { showDetailNews(it) }
@@ -39,12 +42,14 @@ class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
 
     private fun FavoritesViewState.Content.content() {
         adapter.setNewsList(list = newsList)
-        binding.favouritesNewsRecyclerView.adapter = adapter
+        nonNullBinding.favouritesNewsRecyclerView.adapter = adapter
     }
 
-    private fun layoutHandle(state: FavoritesViewState){
-        binding.favouritesNewsRecyclerView.isVisible = state is FavoritesViewState.Content
-        binding.emptyDbMessage.isVisible = state is FavoritesViewState.EmptyDatabase
+    private fun layoutHandle(state: FavoritesViewState) {
+        withSafeBinding {
+           favouritesNewsRecyclerView.isVisible = state is FavoritesViewState.Content
+           emptyDbMessage.isVisible = state is FavoritesViewState.EmptyDatabase
+        }
     }
 
     private fun showDetailNews(newsItem: DbNewsItem) {
@@ -62,4 +67,5 @@ class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
     private companion object {
         private const val NEWS_ITEM = "newsItem"
     }
+
 }
