@@ -44,14 +44,12 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
 
     private fun favouriteStateHandler() {
         lifecycleScope.launchWhenResumed {
-            when (viewModel.data.value) {
-                true -> iconChange(newsId = newsItem.id)
-                false -> {
-                    withContext(Dispatchers.IO) {
-                        viewModel.addToFavourite(newsItem)
-                    }
+            if (viewModel.data.value == true) {
+                iconChange(newsId = newsItem.id)
+            } else {
+                withContext(Dispatchers.IO) {
+                    viewModel.addToFavourite(newsItem)
                 }
-                else -> {}
             }
         }
         this.dismiss()
