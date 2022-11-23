@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.common.modalBottomSheet.data.model.toNewsItemBS
 import com.ilein.cosmodroid.common.modalBottomSheet.presentation.modal.NewsItemBS
@@ -19,26 +18,34 @@ import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.android.ext.android.get
 
-class ModalBottomSheet : BottomSheetDialogFragment() {
-    private var binding: FragmentModalBottomSheetBinding? = null
+class ModalBottomSheet : ViewBindingBottomSheet<FragmentModalBottomSheetBinding>() {
     private val viewModel by viewModel<BottomSheetViewModel>()
     private lateinit var database: NewsDao
     private lateinit var newsItem: NewsItemBS
 
+    override val initBinding: (inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> FragmentModalBottomSheetBinding =
+        FragmentModalBottomSheetBinding::inflate
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_modal_bottom_sheet, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        database = get<NewsDao>()
-        binding = FragmentModalBottomSheetBinding.bind(view)
-        newsItem = (requireArguments().getSerializable(NEWS_ITEM) as NewsItem).toNewsItemBS()
-        binding?.addToFavourite?.setOnClickListener { favouriteStateHandler() }
-        binding?.shareAnNews?.setOnClickListener { shareNews(newsItem) }
-        binding?.openOriginalNewsPage?.setOnClickListener { openUrlInBrowser(newsItem.url) }
+        withSafeBinding {
+            database = get<NewsDao>()
+            FragmentModalBottomSheetBinding.bind(view)
+            newsItem = (requireArguments().getSerializable(NEWS_ITEM) as NewsItem).toNewsItemBS()
+            addToFavourite.setOnClickListener { favouriteStateHandler() }
+            shareAnNews.setOnClickListener { shareNews(newsItem) }
+            openOriginalNewsPage.setOnClickListener { openUrlInBrowser(newsItem.url) }
+            translateNews.setOnClickListener {
+                translateNewsInBrowser(
+                    newsText = newsItem.description, newsUrl = newsItem.url
+                )
+            }
+        }
+
         viewModel.checkIsDataExists(newsId = newsItem.id)
     }
 
@@ -57,7 +64,7 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
 
     private fun iconChange(newsId: Int) {
         viewModel.deleteFromFavouriteById(newsId = newsId)
-        binding?.addToFavourite?.setBackgroundResource(R.drawable.icon_news)
+        nonNullBinding.addToFavourite.setBackgroundResource(R.drawable.icon_news)
     }
 
     private fun shareNews(newsItem: NewsItemBS) {
@@ -77,9 +84,15 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         startActivity(browserIntent)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
+    private fun translateNewsInBrowser(newsUrl: String, newsText: String) {
+        val originalNewsUrl = "\n $newsUrl"
+        val translateWebSite =
+            "https://translate.google.ru/?sl=en&tl=ru&text=$newsText&op=translate"
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(translateWebSite + originalNewsUrl))
+
+        this.dismiss()
+        startActivity(browserIntent)
     }
 
     companion object {
@@ -87,11 +100,10 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         private const val NEWS_ITEM = "newsItem"
 
         @JvmStatic
-        fun newInstance(newsItem: NewsItem) =
-            ModalBottomSheet().apply {
-                arguments = Bundle().apply {
-                    putSerializable(NEWS_ITEM, newsItem)
-                }
+        fun newInstance(newsItem: NewsItem) = ModalBottomSheet().apply {
+            arguments = Bundle().apply {
+                putSerializable(NEWS_ITEM, newsItem)
             }
+        }
     }
 }
