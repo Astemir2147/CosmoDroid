@@ -5,8 +5,10 @@ import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import at.huber.youtubeExtractor.VideoMeta
@@ -17,7 +19,7 @@ import com.ilein.cosmodroid.ViewBindingFragment
 import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 
-class DetailNewsFragment : ViewBindingFragment<FragmentDetailNewsBinding>() {
+class DetailNewsFragment: ViewBindingFragment<FragmentDetailNewsBinding>() {
     private lateinit var player: ExoPlayer
     private lateinit var newsItem: NewsItem
 
@@ -35,34 +37,38 @@ class DetailNewsFragment : ViewBindingFragment<FragmentDetailNewsBinding>() {
     }
 
     private fun initializePlayer() {
-        kotlin.runCatching {
-            player = ExoPlayer.Builder(requireContext()).build()
-            val videoLink = newsItem.videoUrl
-            val playWhenReady = true
-            val currentItem = 0
-            val playbackPosition: Long = 0
-            player.playWhenReady = playWhenReady
-            player.seekTo(currentItem, playbackPosition)
-            player.prepare()
+        setupPlayer()
+        extractYoutubeVideo()
+        nonNullBinding.newsVideo.player = player
+    }
 
-            class PlayerExtractor : YouTubeExtractor(requireContext()) {
-                override fun onExtractionComplete(
-                    ytFiles: SparseArray<YtFile>?,
-                    videoMeta: VideoMeta?
-                ) {
-                    if (ytFiles != null) {
-                        val iTag = 22
-                        val downloadUrl = ytFiles[iTag].url
-                        val mediaItem = MediaItem.fromUri(downloadUrl)
-                        player.setMediaItem(mediaItem)
-                    }
+    private fun setupPlayer() {
+        player = ExoPlayer.Builder(requireContext()).build()
+        with(player) {
+            playWhenReady = true
+            seekTo(0, 0)
+            prepare()
+            addListener(object: Player.Listener {
+                override fun onPlayerError(error: PlaybackException) {
+                    nonNullBinding.newsVideo.isVisible = false
+                }
+            })
+        }
+    }
+
+    private fun extractYoutubeVideo() {
+        class PlayerExtractor : YouTubeExtractor(requireContext()) {
+            override fun onExtractionComplete(
+                ytFiles: SparseArray<YtFile>?,
+                videoMeta: VideoMeta?
+            ) {
+                if (ytFiles != null) {
+                    val mediaItem = MediaItem.fromUri(ytFiles[YT_FILES_ITAG].url)
+                    player.setMediaItem(mediaItem)
                 }
             }
-            PlayerExtractor().extract(videoLink)
-            nonNullBinding.newsVideo.player = player
-        }.onFailure {
-            Toast.makeText(requireContext(), "Rer", Toast.LENGTH_SHORT).show()
         }
+        PlayerExtractor().extract(newsItem.videoUrl)
     }
 
     override fun onDestroyView() {
@@ -82,5 +88,6 @@ class DetailNewsFragment : ViewBindingFragment<FragmentDetailNewsBinding>() {
 
     companion object {
         private const val NEWS_ITEM = "newsItem"
+        private const val YT_FILES_ITAG = 22
     }
 }
