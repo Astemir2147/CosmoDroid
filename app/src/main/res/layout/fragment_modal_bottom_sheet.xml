@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:paddingBottom="20dp"
     app:layout_behavior="com.google.android.material.bottom-sheet.BottomSheetBehavior"
-    tools:context=".feature_news_list.presentation.ModalBottomSheet"
+    tools:context=".common.modalBottomSheet.presentation.ModalBottomSheet"
     tools:layout_editor_absoluteX="50dp"
     tools:layout_editor_absoluteY="25dp">
 

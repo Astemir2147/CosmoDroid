@@ -42,7 +42,7 @@
     </fragment>
     <dialog
         android:id="@+id/modalBottomSheet"
-        android:name="com.ilein.cosmodroid.feature_news_list.presentation.ModalBottomSheet"
+        android:name="com.ilein.cosmodroid.common.modalBottomSheet.presentation.ModalBottomSheet"
         android:label="fragment_modal_bottom_sheet"
         tools:layout="@layout/fragment_modal_bottom_sheet" />
     <fragment

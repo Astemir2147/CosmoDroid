@@ -10,7 +10,7 @@ import com.ilein.cosmodroid.databinding.FragmentFavouritesNewsBinding
 import com.ilein.cosmodroid.feature_favourites_news.presentation.adapter.FavoritesAdapter
 import com.ilein.cosmodroid.feature_favourites_news.presentation.model.DbNewsItem
 import com.ilein.cosmodroid.feature_favourites_news.presentation.model.dbNewsToNewsItem
-import com.ilein.cosmodroid.feature_news_list.presentation.ModalBottomSheet
+import com.ilein.cosmodroid.common.modalBottomSheet.presentation.ModalBottomSheet
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavouritesNewsFragment: Fragment(R.layout.fragment_favourites_news) {
