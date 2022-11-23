@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.detailNewsLayout -> hideBottomNav()
+                R.id.searchItemDetailFragment -> hideBottomNav()
                 else -> showBottomNavigation()
             }
         }
