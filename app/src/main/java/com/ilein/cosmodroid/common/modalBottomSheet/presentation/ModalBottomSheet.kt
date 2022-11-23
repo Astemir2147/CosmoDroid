@@ -6,15 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.common.modalBottomSheet.data.model.toNewsItemBS
 import com.ilein.cosmodroid.common.modalBottomSheet.presentation.modal.NewsItemBS
 import com.ilein.cosmodroid.core.database.dao.NewsDao
 import com.ilein.cosmodroid.databinding.FragmentModalBottomSheetBinding
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.android.ext.android.get
 
@@ -26,45 +23,47 @@ class ModalBottomSheet : ViewBindingBottomSheet<FragmentModalBottomSheetBinding>
     override val initBinding: (inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> FragmentModalBottomSheetBinding =
         FragmentModalBottomSheetBinding::inflate
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_modal_bottom_sheet, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        withSafeBinding {
-            database = get<NewsDao>()
-            FragmentModalBottomSheetBinding.bind(view)
-            newsItem = (requireArguments().getSerializable(NEWS_ITEM) as NewsItem).toNewsItemBS()
-            addToFavourite.setOnClickListener { favouriteStateHandler() }
-            shareAnNews.setOnClickListener { shareNews(newsItem) }
-            openOriginalNewsPage.setOnClickListener { openUrlInBrowser(newsItem.url) }
-            translateNews.setOnClickListener {
-                translateNewsInBrowser(
-                    newsText = newsItem.description, newsUrl = newsItem.url
-                )
-            }
-        }
-
+    override fun onStart() {
+        super.onStart()
+        newsItem = (requireArguments().getSerializable(NEWS_ITEM) as NewsItem).toNewsItemBS()
         viewModel.checkIsDataExists(newsId = newsItem.id)
     }
 
-    private fun favouriteStateHandler() {
-        lifecycleScope.launchWhenResumed {
-            if (viewModel.data.value == true) {
-                iconChange(newsId = newsItem.id)
-            } else {
-                withContext(Dispatchers.IO) {
-                    viewModel.addToFavourite(newsItem)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        database = get()
+        viewModel.isItemInFavorite.observe(this, ::setupIcon)
+        withSafeBinding {
+            addToFavourite.setOnClickListener { favouriteStateHandler() }
+            shareAnNews.setOnClickListener { shareNews(newsItem) }
+            openOriginalNewsPage.setOnClickListener { openUrlInBrowser(newsItem.url) }
         }
-        this.dismiss()
     }
 
-    private fun iconChange(newsId: Int) {
-        viewModel.deleteFromFavouriteById(newsId = newsId)
-        nonNullBinding.addToFavourite.setBackgroundResource(R.drawable.icon_news)
+    private fun favouriteStateHandler() {
+        val onItemActionHandler =
+            if (parentFragment is OnItemRemovedHandler) parentFragment as OnItemRemovedHandler else null
+
+        if (viewModel.isItemInFavorite.value == true) {
+            viewModel.deleteFromFavouriteById(newsId = newsItem.id)
+            onItemActionHandler?.onItemRemoved(newsItem.id)
+        } else {
+            viewModel.addToFavourite(newsItem)
+        }
+        dismiss()
+    }
+
+    private fun setupIcon(isFavorite: Boolean) {
+        val (icon, text) = if (isFavorite) {
+            R.drawable.ic_favorite_red to R.string.remove_favourite_text
+        } else {
+            R.drawable.icon_favorite_heart to R.string.add_favourite_text
+        }
+        nonNullBinding.addToFavourite.let {
+            it.setIconTintResource(R.color.red)
+            it.setIconResource(icon)
+            it.setText(text)
+        }
     }
 
     private fun shareNews(newsItem: NewsItemBS) {
@@ -84,26 +83,16 @@ class ModalBottomSheet : ViewBindingBottomSheet<FragmentModalBottomSheetBinding>
         startActivity(browserIntent)
     }
 
-    private fun translateNewsInBrowser(newsUrl: String, newsText: String) {
-        val originalNewsUrl = "\n $newsUrl"
-        val translateWebSite =
-            "https://translate.google.ru/?sl=en&tl=ru&text=$newsText&op=translate"
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse(translateWebSite + originalNewsUrl))
-
-        this.dismiss()
-        startActivity(browserIntent)
-    }
-
     companion object {
         const val TAG = "ModalBottomSheet"
         private const val NEWS_ITEM = "newsItem"
 
         @JvmStatic
-        fun newInstance(newsItem: NewsItem) = ModalBottomSheet().apply {
-            arguments = Bundle().apply {
-                putSerializable(NEWS_ITEM, newsItem)
+        fun newInstance(newsItem: NewsItem) =
+            ModalBottomSheet().apply {
+                arguments = Bundle().apply {
+                    putSerializable(NEWS_ITEM, newsItem)
+                }
             }
-        }
     }
 }

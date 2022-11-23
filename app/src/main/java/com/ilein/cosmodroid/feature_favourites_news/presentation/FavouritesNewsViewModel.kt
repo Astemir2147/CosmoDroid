@@ -17,7 +17,7 @@ class FavouritesNewsViewModel(private val favoriteInteractor: FavoriteInteractor
     private val newsViewState = MutableLiveData<FavoritesViewState>()
     val contentState: LiveData<FavoritesViewState> get() = newsViewState
 
-    fun getNewsList() {
+    fun getFavoriteNewsList() {
         viewModelScope.launch(Dispatchers.IO) {
             when (val news = favoriteInteractor.getNewsList()) {
                 is DateState.Data -> dispatcherSuccess(news.data.map { it.dbNewsToDbNewsItem() })
@@ -28,13 +28,21 @@ class FavouritesNewsViewModel(private val favoriteInteractor: FavoriteInteractor
 
     private suspend fun dispatcherSuccess(list: List<DbNewsItem>) {
         withContext(Dispatchers.Main) {
-            newsViewState.postValue(FavoritesViewState.Content(newsList = list))
+            newsViewState.value = FavoritesViewState.Content(list)
         }
     }
 
     private suspend fun dispatcherError() {
         withContext(Dispatchers.Main) {
-            newsViewState.postValue(FavoritesViewState.EmptyDatabase)
+            newsViewState.value = FavoritesViewState.EmptyDatabase
+        }
+    }
+
+    fun removeItem(itemId: Int) {
+        newsViewState.value?.ifContent {
+            val newNewsList = it.newsList.toMutableList().filter { dbNewsItem -> dbNewsItem.id != itemId }
+            newsViewState.value =
+                if (newNewsList.isEmpty()) FavoritesViewState.EmptyDatabase else FavoritesViewState.Content(newNewsList)
         }
     }
 }
