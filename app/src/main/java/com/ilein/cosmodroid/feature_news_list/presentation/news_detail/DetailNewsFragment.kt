@@ -13,11 +13,12 @@ import at.huber.youtubeExtractor.YtFile
 import coil.load
 import com.ilein.cosmodroid.R
 import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
+import com.ilein.cosmodroid.common.modalBottomSheet.presentation.ModalBottomSheet
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 import com.ilein.cosmodroid.feature_news_list.presentation.state.DetailNewsViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
+class DetailNewsFragment: Fragment(R.layout.fragment_detail_news) {
     private lateinit var binding: FragmentDetailNewsBinding
     private val newsViewModel by viewModel<DetailNewsViewModel>()
     private lateinit var player: ExoPlayer
@@ -26,7 +27,8 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailNewsBinding.bind(view)
-        binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.goBackStack.setOnClickListener { findNavController().popBackStack() }
+        binding.detailSpinMenu.setOnClickListener { showBottomSheet(newsItem) }
         newsItem = requireArguments().getSerializable(NEWS_ITEM) as NewsItem
         itemHandler(newsItem)
         initializePlayer()
@@ -42,7 +44,7 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
         player.seekTo(currentItem, playbackPosition)
         player.prepare()
 
-        class PlayerExtractor: YouTubeExtractor(requireContext()) {
+        class PlayerExtractor : YouTubeExtractor(requireContext()) {
             override fun onExtractionComplete(
                 ytFiles: SparseArray<YtFile>?,
                 videoMeta: VideoMeta?
@@ -57,6 +59,11 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
         }
         PlayerExtractor().extract(videoLink)
         binding.newsVideo.player = player
+    }
+
+    private fun showBottomSheet(newsItem: NewsItem) {
+        val modalBottomSheet = ModalBottomSheet.newInstance(newsItem)
+        modalBottomSheet.show(parentFragmentManager, ModalBottomSheet.TAG)
     }
 
     override fun onDestroyView() {
