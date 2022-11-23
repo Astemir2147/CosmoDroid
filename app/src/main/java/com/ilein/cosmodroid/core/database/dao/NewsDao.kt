@@ -17,7 +17,15 @@ abstract class NewsDao {
     @Query("SELECT * FROM favourites_news")
     abstract fun getAllFavouritesNews(): List<NewsEntity>
 
+    /** Проверяет находится ли выбранный айтем в базе данных по [id] */
+    @Query("SELECT EXISTS (SELECT 1 FROM favourites_news WHERE id = :id)")
+    abstract fun isDateExists(id: Int): Boolean
+
+    /** Удаляет из закладок выбранный айтем по [newsId] */
+    @Query("DELETE FROM favourites_news WHERE id = :newsId")
+    abstract fun deleteById(newsId: Int)
+
     /** Добавляет пост с новостью в базу данных */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun setFavouritesNews(contract: NewsEntity)
+    abstract fun setFavouritesNews(newsEntity: NewsEntity)
 }
