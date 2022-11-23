@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
-import com.ilein.cosmodroid.ViewBindingFragment
+import com.ilein.cosmodroid.common.modalBottomSheet.presentation.ModalBottomSheet
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 import com.ilein.cosmodroid.feature_news_list.presentation.state.NewsViewState
 

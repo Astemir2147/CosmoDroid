@@ -5,6 +5,7 @@ import com.ilein.cosmodroid.search.di.searchModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import android.app.Application
+import com.ilein.cosmodroid.common.modalBottomSheet.di.bottomSheetModule
 import com.ilein.cosmodroid.feature_favourites_news.di.favouritesNewsModule
 
 class DiApp : Application() {
@@ -12,7 +13,7 @@ class DiApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@DiApp)
-            modules(coreModule, newsModule, searchModule, favouritesNewsModule)
+            modules(coreModule, newsModule, searchModule, favouritesNewsModule, bottomSheetModule)
         }
     }
 }

@@ -17,6 +17,7 @@ import at.huber.youtubeExtractor.YtFile
 import coil.load
 import com.ilein.cosmodroid.ViewBindingFragment
 import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
+import com.ilein.cosmodroid.common.modalBottomSheet.presentation.ModalBottomSheet
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 
 class DetailNewsFragment : ViewBindingFragment<FragmentDetailNewsBinding>() {
@@ -38,7 +39,6 @@ class DetailNewsFragment : ViewBindingFragment<FragmentDetailNewsBinding>() {
 
     private fun initializePlayer() {
         setupPlayer()
-
         extractYoutubeVideo()
 
         nonNullBinding.newsVideo.player = player
@@ -67,10 +67,16 @@ class DetailNewsFragment : ViewBindingFragment<FragmentDetailNewsBinding>() {
                 if (ytFiles != null) {
                     val mediaItem = MediaItem.fromUri(ytFiles[YT_FILES_ITAG].url)
                     player.setMediaItem(mediaItem)
+
                 }
             }
         }
         PlayerExtractor().extract(newsItem.videoUrl)
+    }
+
+    private fun showBottomSheet(newsItem: NewsItem) {
+        val modalBottomSheet = ModalBottomSheet.newInstance(newsItem)
+        modalBottomSheet.show(parentFragmentManager, ModalBottomSheet.TAG)
     }
 
     override fun onDestroyView() {
