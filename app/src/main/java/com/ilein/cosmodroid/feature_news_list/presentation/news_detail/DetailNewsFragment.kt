@@ -30,7 +30,8 @@ class DetailNewsFragment : ViewBindingFragment<FragmentDetailNewsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         withSafeBinding {
-            topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
+           goBackStack.setOnClickListener { findNavController().popBackStack() }
+            detailSpinMenu.setOnClickListener { showBottomSheet(newsItem) }
         }
         newsItem = requireArguments().getSerializable(NEWS_ITEM) as NewsItem
         itemHandler(newsItem)
