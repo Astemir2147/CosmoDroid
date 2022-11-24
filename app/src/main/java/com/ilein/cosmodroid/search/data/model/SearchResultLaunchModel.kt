@@ -8,20 +8,51 @@ data class SearchResultLaunchModel(
     val id: String,
     @SerializedName("name")
     val name: String,
-    @SerializedName("description")
-    val description: String?,
     @SerializedName("image")
-    val image: String?
+    val image: String?,
+    @SerializedName("launch_service_provider")
+    val launchServiceProvider: LaunchServiceProviderShortModel?,
+    @SerializedName("status")
+    val status: LaunchStatusShortModel?,
+    @SerializedName("mission")
+    val mission: MissionShortModel?
+)
+
+data class LaunchServiceProviderShortModel(
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
+    val name: String
+)
+
+data class LaunchStatusShortModel(
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
+    val name: String
+)
+
+data class MissionShortModel(
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("description")
+    val description: String?
 )
 
 fun SearchResultLaunchModel.toSearchItem(enumSearchItem: EnumSearchItems): SearchItemModel {
     val imageUrl = this.image
-    return SearchItemModel(null,
+    val description =
+        "Status: ${this.status?.name}\nLaunch: ${this.launchServiceProvider?.name}\nMission: ${this.mission?.description}"
+    return SearchItemModel(
+        null,
         this.id,
         this.name,
-        this.description,
+        description,
         imageUrl,
-        enumSearchItem)
+        enumSearchItem
+    )
 }
 
 fun List<SearchResultLaunchModel>.toListSearchItem(enumSearchItem: EnumSearchItems): List<SearchItemModel> {
