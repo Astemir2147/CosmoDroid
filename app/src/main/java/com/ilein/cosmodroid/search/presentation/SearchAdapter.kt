@@ -34,6 +34,7 @@ internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit
 
     internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var image: ImageView = itemView.findViewById(R.id.ivImage)
+        private var imageCosmo: ImageView = itemView.findViewById(R.id.ivImageCosmo)
         private var itemTitle: TextView = itemView.findViewById(R.id.tvTitle)
         private var description: TextView = itemView.findViewById(R.id.tvDescription)
 
@@ -44,9 +45,10 @@ internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit
             }
 
             image.requestLayout()
+            imageCosmo.requestLayout()
             itemTitle.text = searchItem.title
 
-            if (searchItem.imgUrl.isNullOrBlank()) {
+            if (searchItem.imgUrl.isNullOrBlank() || searchItem.type == EnumSearchItems.ASTRONAUTS) {
                 image.visibility = View.GONE
                 description.maxLines = 7
             } else {
@@ -56,15 +58,26 @@ internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit
             description.text = searchItem.description
 
             if (searchItem.type == EnumSearchItems.ASTRONAUTS) {
-                image.scaleType = ImageView.ScaleType.FIT_CENTER
+                imageCosmo.scaleType = ImageView.ScaleType.FIT_CENTER
+                if (searchItem.imgUrl.isNullOrBlank()) {
+                    imageCosmo.visibility = View.GONE
+                } else {
+                    imageCosmo.visibility = View.VISIBLE
+                }
+                if (imageCosmo.isVisible) {
+                    imageCosmo.load(searchItem.imgUrl) {
+                        transformations(RoundedCornersTransformation(16f))
+                        scale(Scale.FILL)
+                    }
+                }
             } else {
                 image.scaleType = ImageView.ScaleType.CENTER_CROP
-            }
-            if (image.isVisible) {
-                val imageScale = Scale.FIT
-                image.load(searchItem.imgUrl) {
-                    transformations(RoundedCornersTransformation(16f))
-                    scale(imageScale)
+                imageCosmo.visibility = View.GONE
+                if (image.isVisible) {
+                    image.load(searchItem.imgUrl) {
+                        transformations(RoundedCornersTransformation(16f))
+                        scale(Scale.FIT)
+                    }
                 }
             }
         }
