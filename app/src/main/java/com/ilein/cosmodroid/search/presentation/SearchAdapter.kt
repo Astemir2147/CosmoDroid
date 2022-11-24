@@ -17,9 +17,10 @@ import com.ilein.cosmodroid.search.data.model.EnumSearchItems
 import com.ilein.cosmodroid.search.data.model.SearchResultModel
 import com.ilein.cosmodroid.search.domain.model.SearchItemModel
 
-internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit): ListAdapter<SearchResultModel, SearchAdapter.ViewHolder>(
-    SEARCH_ITEM_COMPARATOR
-) {
+internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit) :
+    ListAdapter<SearchResultModel, SearchAdapter.ViewHolder>(
+        SEARCH_ITEM_COMPARATOR
+    ) {
 
     private val items: MutableList<SearchItemModel> = mutableListOf()
 
@@ -39,14 +40,21 @@ internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit
         fun bind(onItemClick: (Int, Int, String) -> Unit, searchItem: SearchItemModel) {
 
             itemView.setOnClickListener {
-                onItemClick(searchItem.type.id, searchItem.id?:0, searchItem.idStr)
+                onItemClick(searchItem.type.id, searchItem.id ?: 0, searchItem.idStr)
             }
 
             image.requestLayout()
             itemTitle.text = searchItem.title
+
+            if (searchItem.imgUrl.isNullOrBlank()) {
+                image.visibility = View.GONE
+                description.maxLines = 7
+            } else {
+                image.visibility = View.VISIBLE
+                description.maxLines = 3
+            }
             description.text = searchItem.description
 
-            image.isVisible = !searchItem.imgUrl.isNullOrBlank()
             if (searchItem.type == EnumSearchItems.ASTRONAUTS) {
                 image.scaleType = ImageView.ScaleType.FIT_CENTER
             } else {
@@ -65,15 +73,24 @@ internal class SearchAdapter(private val onItemClick: (Int, Int, String) -> Unit
 
     companion object {
         val SEARCH_ITEM_COMPARATOR = object : DiffUtil.ItemCallback<SearchResultModel>() {
-            override fun areContentsTheSame(oldItem: SearchResultModel, newItem: SearchResultModel): Boolean {
+            override fun areContentsTheSame(
+                oldItem: SearchResultModel,
+                newItem: SearchResultModel
+            ): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areItemsTheSame(oldItem: SearchResultModel, newItem: SearchResultModel): Boolean {
+            override fun areItemsTheSame(
+                oldItem: SearchResultModel,
+                newItem: SearchResultModel
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun getChangePayload(oldItem: SearchResultModel, newItem: SearchResultModel): Any? {
+            override fun getChangePayload(
+                oldItem: SearchResultModel,
+                newItem: SearchResultModel
+            ): Any? {
                 return null
             }
         }
