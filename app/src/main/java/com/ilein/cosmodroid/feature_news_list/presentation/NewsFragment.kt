@@ -24,6 +24,21 @@ class NewsFragment: ViewBindingFragment<FragmentNewsBinding>() {
     override val initBinding: (LayoutInflater, ViewGroup?, Boolean) -> FragmentNewsBinding =
         FragmentNewsBinding::inflate
 
+    override fun onResume() {
+        super.onResume()
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, FilterTypes.typeNames())
+        nonNullBinding.menuDrop.setAdapter(adapter)
+        nonNullBinding.menuDrop.setOnItemClickListener { _, _, position, _ ->
+            adapter.getItem(position)?.let {
+                if (it == ALL_TYPE_NAME) {
+                    newsViewModel.getNewsList()
+                } else {
+                    newsViewModel.getNewsListByType(FilterTypes.findTypeByName(it).id)
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         withSafeBinding {
             with(newsViewModel) {
@@ -32,23 +47,10 @@ class NewsFragment: ViewBindingFragment<FragmentNewsBinding>() {
                 menuDrop.setText(ALL_TYPE_NAME)
             }
             newsAdapter = NewsAdapter(
-                showBottomSheet = ::showBottomSheet,
-                showDetailNews = ::showDetailNews
+                showBottomSheet = ::showBottomSheet, showDetailNews = ::showDetailNews
             )
             newsRecyclerView.adapter = newsAdapter
 
-            val adapter =
-                ArrayAdapter(requireContext(), R.layout.list_item, FilterTypes.typeNames())
-            menuDrop.setAdapter(adapter)
-            menuDrop.setOnItemClickListener { _, _, position, _ ->
-                adapter.getItem(position)?.let {
-                    if (it == ALL_TYPE_NAME){
-                        newsViewModel.getNewsList()
-                    } else {
-                        newsViewModel.getNewsListByType(FilterTypes.findTypeByName(it).id)
-                    }
-                }
-            }
         }
     }
 
