@@ -14,7 +14,7 @@
 * OkHttp 3 - HTTP запросы
 * Coil - загрузка изображений по URL
 # Скриншоты
-# Светлая тема
+
 <p>
   <img src="screenshots/screenshot1Home.jpeg" width="400" />
   <img src="screenshots/screenshot1DetailHome.jpeg" width="400" />
