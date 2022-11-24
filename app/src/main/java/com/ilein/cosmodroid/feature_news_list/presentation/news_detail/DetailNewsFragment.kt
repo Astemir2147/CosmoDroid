@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.ilein.cosmodroid.ViewBindingFragment
-import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
 import com.ilein.cosmodroid.common.modalBottomSheet.presentation.ModalBottomSheet
+import com.ilein.cosmodroid.databinding.FragmentDetailNewsBinding
 import com.ilein.cosmodroid.feature_news_list.presentation.model.NewsItem
 
 class DetailNewsFragment: ViewBindingFragment<FragmentDetailNewsBinding>() {

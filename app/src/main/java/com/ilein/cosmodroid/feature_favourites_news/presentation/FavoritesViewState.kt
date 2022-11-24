@@ -6,4 +6,8 @@ sealed class FavoritesViewState {
     object EmptyDatabase : FavoritesViewState()
 
     data class Content(var newsList: List<DbNewsItem>) : FavoritesViewState()
+
+    fun ifContent(block: (Content) -> Unit) {
+        if (this is Content) block(this)
+    }
 }

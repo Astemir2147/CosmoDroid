@@ -1,5 +1,6 @@
 package com.ilein.cosmodroid.common.modalBottomSheet.presentation
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,25 +13,28 @@ import kotlinx.coroutines.withContext
 
 class BottomSheetViewModel(private var repository: BottomSheetRepository) : ViewModel() {
 
-    val data :MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
-    suspend fun addToFavourite(newsItem: NewsItemBS) {
-        repository.addToFavourite(newsModel = newsItem.toNewsModelBS())
+    private val data: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    val isItemInFavorite: LiveData<Boolean>
+        get() = data
+
+    fun addToFavourite(newsItem: NewsItemBS) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addToFavourite(newsModel = newsItem.toNewsModelBS())
+        }
     }
 
-   fun deleteFromFavouriteById(newsId: Int){
-       viewModelScope.launch{
-           withContext(Dispatchers.IO) {
-             repository.deleteFromFavouriteById(newsId = newsId)
-           }
-       }
-   }
+    fun deleteFromFavouriteById(newsId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteFromFavouriteById(newsId = newsId)
+        }
+    }
 
-    fun checkIsDataExists(newsId: Int){
-        viewModelScope.launch{
+    fun checkIsDataExists(newsId: Int) {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val isExistDb = repository.checkIsDataExists(newsId = newsId)
                 withContext(Dispatchers.Main) {
-                    data.postValue(isExistDb)
+                    data.value = isExistDb
                 }
             }
         }
