@@ -16,10 +16,10 @@
 # Скриншоты
 # Светлая тема
 <p>
-  <img src="screenshot1Home.jpeg" width="400" />
-  <img src="screenshot1DetailHome.jpeg" width="400" />
-  <img src="screenshot2Search.jpeg" width="400" />
-  <img src="screenshot3Favourite.jpeg" width="400" />
-  <img src="screenshot4BottomSheet.jpeg" width="400" />
+  <img src="screenshots/screenshot1Home.jpeg" width="400" />
+  <img src="screenshots/screenshot1DetailHome.jpeg" width="400" />
+  <img src="screenshots/screenshot2Search.jpeg" width="400" />
+  <img src="screenshots/screenshot3Favourite.jpeg" width="400" />
+  <img src="screenshots/screenshot4BottomSheet.jpeg" width="400" />
 </p>
 
