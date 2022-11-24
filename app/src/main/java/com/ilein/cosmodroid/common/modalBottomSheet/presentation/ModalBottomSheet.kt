@@ -16,33 +16,33 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.android.ext.android.get
 
 class ModalBottomSheet : ViewBindingBottomSheet<FragmentModalBottomSheetBinding>() {
-    private val viewModel by viewModel<BottomSheetViewModel>()
     private lateinit var database: NewsDao
     private lateinit var newsItem: NewsItemBS
+    private val viewModel by viewModel<BottomSheetViewModel>()
 
     override val initBinding: (inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean) -> FragmentModalBottomSheetBinding =
         FragmentModalBottomSheetBinding::inflate
 
-    override fun onStart() {
-        super.onStart()
-        newsItem = (requireArguments().getSerializable(NEWS_ITEM) as NewsItem).toNewsItemBS()
-        viewModel.checkIsDataExists(newsId = newsItem.id)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        database = get()
+        database = get<NewsDao>()
         viewModel.isItemInFavorite.observe(this, ::setupIcon)
         withSafeBinding {
+            newsItem = (requireArguments().getSerializable(NEWS_ITEM) as NewsItem).toNewsItemBS()
             addToFavourite.setOnClickListener { favouriteStateHandler() }
             shareAnNews.setOnClickListener { shareNews(newsItem) }
             openOriginalNewsPage.setOnClickListener { openUrlInBrowser(newsItem.url) }
+            translateNews.setOnClickListener {
+                translateNewsInBrowser(
+                    newsText = newsItem.description, newsUrl = newsItem.url
+                )
+            }
         }
+        viewModel.checkIsDataExists(newsId = newsItem.id)
     }
 
     private fun favouriteStateHandler() {
-        val onItemActionHandler =
-            if (parentFragment is OnItemRemovedHandler) parentFragment as OnItemRemovedHandler else null
+        val onItemActionHandler = parentFragment as? OnItemRemovedHandler
 
         if (viewModel.isItemInFavorite.value == true) {
             viewModel.deleteFromFavouriteById(newsId = newsItem.id)
@@ -60,7 +60,7 @@ class ModalBottomSheet : ViewBindingBottomSheet<FragmentModalBottomSheetBinding>
             R.drawable.icon_favorite_heart to R.string.add_favourite_text
         }
         nonNullBinding.addToFavourite.let {
-            it.setIconTintResource(R.color.red)
+            it.setIconTintResource(R.color.black)
             it.setIconResource(icon)
             it.setText(text)
         }
@@ -74,12 +74,22 @@ class ModalBottomSheet : ViewBindingBottomSheet<FragmentModalBottomSheetBinding>
             type = typeShare
         }
         startActivity(shareIntent)
-        this.dismiss()
+        dismiss()
     }
 
     private fun openUrlInBrowser(url: String) {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        this.dismiss()
+        dismiss()
+        startActivity(browserIntent)
+    }
+
+    private fun translateNewsInBrowser(newsUrl: String, newsText: String) {
+        val originalNewsUrl = "\n $newsUrl"
+        val translateWebSite =
+            "https://translate.google.ru/?sl=en&tl=ru&text=$newsText&op=translate"
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(translateWebSite + originalNewsUrl))
+        dismiss()
         startActivity(browserIntent)
     }
 
@@ -88,11 +98,10 @@ class ModalBottomSheet : ViewBindingBottomSheet<FragmentModalBottomSheetBinding>
         private const val NEWS_ITEM = "newsItem"
 
         @JvmStatic
-        fun newInstance(newsItem: NewsItem) =
-            ModalBottomSheet().apply {
-                arguments = Bundle().apply {
-                    putSerializable(NEWS_ITEM, newsItem)
-                }
+        fun newInstance(newsItem: NewsItem) = ModalBottomSheet().apply {
+            arguments = Bundle().apply {
+                putSerializable(NEWS_ITEM, newsItem)
             }
+        }
     }
 }
